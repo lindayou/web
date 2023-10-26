@@ -1,12 +1,14 @@
 <template>
- <div>
-     
+ <div>  
 <el-container>
   <el-aside width="200px">
       <CommonAside/>
   </el-aside>
+  
   <el-container>
-    <el-header>Header</el-header> 
+      <el-header>
+      <Header />
+  </el-header>
     <el-main>
          <h1>这是main</h1>
    <router-view></router-view>
@@ -20,6 +22,7 @@
 
 <script setup>
 import CommonAside from '../components/commonAside/commonAside.vue'
+import Header from '../components/header/Header.vue'
 </script>
 
 <script>
@@ -55,5 +58,8 @@ import CommonAside from '../components/commonAside/commonAside.vue'
 </script>
 
 <style lang='less' scoped>
+.el-header{
+    padding: 0;
+}
 
 </style>
