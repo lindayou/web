@@ -4,8 +4,8 @@
 <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse"   background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-       <h3>管理端</h3>
-    <el-menu-item @click="clickMenu(item)" v-for="item in noChildren" :key="item.id" :index="item.name">
+       <h3>{{isCollapse ? '后台':'后台管理系统'}}</h3>
+    <el-menu-item @click="clickMenu(item)" v-for="item in noChildren" :key="item.id" :index="item.path" >
     <i :class="`el-icon-${item.icon}`"></i>
     <span slot="title">{{item.title}}</span>
   </el-menu-item>
@@ -15,7 +15,7 @@
       <span slot="title">{{item.title}}</span>
     </template>
     <el-menu-item-group>
-      <el-menu-item @click="clickChildMenu(subItem,item)" v-for="subItem in item.children" :key="subItem.id" :index="subItem.name">{{subItem.title}}</el-menu-item>
+      <el-menu-item @click="clickMenu(subItem)" v-for="subItem in item.children" :key="subItem.id" :index="subItem.name">{{subItem.title}}</el-menu-item>
     </el-menu-item-group>
     
   </el-submenu>
@@ -36,7 +36,6 @@ import { getMenuData } from '../../api/index.js'
    },
    data () {
      return {
-       isCollapse: false,
        menuData:[],
      }
    },
@@ -81,6 +80,9 @@ import { getMenuData } from '../../api/index.js'
     },
     hasChildren(){
       return this.menuData.filter(item=>item.children)
+    },
+    isCollapse(){
+      return this.$store.state.tab.isCollapse
     }
    },
    filters: {
@@ -98,5 +100,6 @@ import { getMenuData } from '../../api/index.js'
    line-height: 48px;
    font-size: 16px;
    }
+   border-right: none;
 }
 </style>

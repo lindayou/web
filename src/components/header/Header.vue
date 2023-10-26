@@ -1,7 +1,7 @@
 <template>
  <div class ="header-container">
   <div class="l-content">
-      <el-button icon ="el-icon-menu" size="mini"></el-button>
+      <el-button icon ="el-icon-menu" @click="handleMenu" size="mini"></el-button>
       <span class="text">首页</span>
   </div>
     <div  class="r-content">
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
  export default {
    name: 'Header',
    props: {
@@ -33,7 +34,11 @@
      }
    },
    methods: {
-
+       ...mapMutations('tab',["collapseMenu"]),
+    handleMenu(){
+        this.collapseMenu()
+        console.log("collapse",this.$store.state)
+    }
    },
    mounted() {
 

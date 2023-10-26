@@ -17,21 +17,16 @@ const routes = [
         name:'home',
         component:Home,
     },
-    {
-      path:'admin',
-      name:'admin',
-      component:Admin,
-      children:[
+    
         {
           path:'authority',
           name:'authority',
           component:Authority,
-        }
-      ]
-    },
+        },
+     
     {
       path:"dashboard",
-      name:'home',
+      name:'dashboard',
       component:Home,
   },
     ]
