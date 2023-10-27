@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
 import Main from '@/views/Main.vue'
-import Admin from '@/views/admin/index.vue'
 import Authority from '@/views/admin/authority/authority.vue'
+import User from '@/views/admin/user/User.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +22,11 @@ const routes = [
           path:'authority',
           name:'authority',
           component:Authority,
+        },
+        {
+          path:'user',
+          name:'user',
+          component:User,
         },
      
     {
