@@ -57,16 +57,17 @@
 
         <el-table-column label="操作" min-width="250" fixed="right">
           <template #default="scope">
-            <el-popover v-model="scope.row.visible" placement="top" width="160">
+            <!-- <el-popover v-model="scope.row.visible" placement="top" width="160">
               <p>确定要删除此用户吗</p>
               <div style="text-align: right; margin-top: 8px;">
                 <el-button type="primary" link @click="scope.row.visible = false">取消</el-button>
                 <el-button type="primary" @click="deleteUserFunc(scope.row)">确定</el-button>
               </div>
               <template #reference>
-                <el-button type="text" link icon="delete">删除</el-button>
+               
               </template>
-            </el-popover>
+            </el-popover> -->
+             <el-button type="text" link icon="delete" @click="deleteAuth(scope.row)">删除</el-button>
             <el-button type="text" link icon="edit" @click="openEdit(scope.row)">编辑</el-button>
             <el-button type="text" link icon="magic-stick" @click="resetPasswordFunc(scope.row)">重置密码</el-button>
           </template>
@@ -100,7 +101,7 @@
           </el-form-item>
           <el-form-item label="用户角色" prop="authorityId">
             <el-cascader
-              v-model="authorityIds"
+              v-model="userInfo.authorityIds"
               style="width:100%"
               :options="authOptions"
               :show-all-levels="false"
@@ -108,7 +109,7 @@
               :clearable="false"
             />
           </el-form-item>
-          <el-form-item label="启用" prop="disabled">
+          <el-form-item label="启用" prop="enable">
             <el-switch
               v-model="userInfo.enable"
               inline-prompt
@@ -126,7 +127,6 @@
         </el-form>
 
       </div>
-
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="closeAddUserDialog">取 消</el-button>
@@ -134,12 +134,42 @@
         </div>
       </template>
     </el-dialog>
+
+    <!-- 新增修改密码弹窗 -->
+
+    <el-dialog
+    :visible.sync="passDialog"
+      title="修改密码"
+      :show-close="false"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false">
+ <div style="height:20vh;overflow:auto;padding:0 12px;">
+        <el-form ref="editPasForm" :rules="passrules" :model="editpassword" label-width="80px">
+          <el-form-item  label="原密码" prop="priPassword">
+            <el-input v-model="editpassword.priPassword" />
+          </el-form-item>
+          <el-form-item  label="新密码" prop="changePassword">
+            <el-input v-model="editpassword.changePassword" />
+          </el-form-item>
+
+        </el-form>
+
+      </div>
+       <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="closePass">取 消</el-button>
+          <el-button type="primary" @click="submitPass">确 定</el-button>
+        </div>
+      </template>
+
+
+    </el-dialog>
   </div>
 </template>
 
 
 <script>
-import { getUserList,createUser,editUser} from '../../../api/user.js'
+import { getUserList,createUser,editUser,deleteUser,changePass} from '../../../api/user.js'
 import { getAuthorityList} from '../../../api/authority.js'
  export default {
    name: 'authority',
@@ -163,15 +193,60 @@ import { getAuthorityList} from '../../../api/authority.js'
       email:'',
       authorityIds:0,
       disabled:0,
+      enabled:0,   
+     
     },
+    dialogFlag:'',
+     passDialog:false,
+     editpassword:{
+        priPassword:'',
+        changePassword:'',
+        userId :0,
+      },
     rules:{
-      authorityId:[
-        {required : true,message : '请输入角色ID'}
-      ],
       authorityName:[
         {
-          required:true,message:'请输入角色名称'
-        }]
+          required:true,
+          message:'请输入角色名称',
+           trigger: 'blur' 
+        }],
+         username:[
+        {
+          required:true,message:'请输入用户名',
+          trigger: 'blur' ,
+          min:5,
+        }],
+         password:[
+        {
+          required:true,message:'请输入密码',
+          trigger: 'blur' ,
+          min:6,
+        }],
+         phone:[
+        {
+          required:true,message:'请输入手机号',
+          trigger: 'blur' 
+        }],
+         authorityId:[
+        {
+          required:true,message:'请选择角色',
+          trigger: 'blur' 
+        }],
+    },
+    passrules:{
+       priPassword:[
+        {
+          required:true,
+          message:'请输入原密码',
+           trigger: 'blur' 
+        }],
+      changePassword:[
+        {
+          message:'请输入新密码',
+          required:true,
+          trigger: 'blur'
+        }
+      ]
     },
     modelType : 0,
     drawer:false,
@@ -187,6 +262,7 @@ import { getAuthorityList} from '../../../api/authority.js'
   },
   //编辑角色方法
   openEdit(row){
+    console.log('this is editOpen row',row)
   this.dialogFlag = 'edit'
   this.userInfo = JSON.parse(JSON.stringify(row))
   this.addUserDialog = true
@@ -198,7 +274,8 @@ import { getAuthorityList} from '../../../api/authority.js'
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteAuthority({authorityId:row.authorityId}).then(res=>{
+          console.log('id',row.id)
+          deleteUser({id:row.id}).then(res=>{
                console.log(res)
             }
           )
@@ -206,7 +283,7 @@ import { getAuthorityList} from '../../../api/authority.js'
             type: 'success',
             message: '删除成功!'
           });
-          this.getAuthList()
+          this.getTableData()
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -215,29 +292,33 @@ import { getAuthorityList} from '../../../api/authority.js'
         });
       
   },
+  //重置密码
+  resetPasswordFunc(row){
+    this.passDialog =true
+    this.editpassword.userId =row.id
 
+  },
+//弹窗确定
 enterAddUserDialog(){
   console.log('this.userInfo.authorityIds',this.userInfo.authorityIds)
  this.userInfo.authorityId = 888
  
   this.$refs.userForm.validate(async valid => {
+     console.log('$22222222222222222222222',this.$refs)
     if (valid) {
       const req = {
         ...this.userInfo
       }
       if (this.dialogFlag === 'add') {
         const res = await createUser(req)
-        if (res.code === 0) {
-          ElMessage({ type: 'success', message: '创建成功' })
-          
-          
-        }
+       
          this.getTableData()
         this.closeAddUserDialog()
         console.log('addUser Res',res)
       }
       if (this.dialogFlag === 'edit') {
         const res = await editUser(req)
+        console.log('editrreq and res',req,res)
         // if (res.code === 0) {
         //   ElMessage({ type: 'success', message: '编辑成功' })
         //   await getTableData()
@@ -285,12 +366,45 @@ initForm(){
 
    closeAddUserDialog(){
 
-    console.log('this is this',this)
   this.$refs.userForm.resetFields()
   console.log('this is userForm',this)
   this.userInfo.authorityIds = []
   this.addUserDialog= false
    },
+   //关闭重置密码弹窗
+   closePass(){
+     this.$refs.editPasForm.resetFields()
+     this.passDialog =false
+   },
+   //重置密码确定
+  submitPass(){
+   this.$refs.editPasForm.validate(valid=>{
+     if(valid){
+       const req ={
+         ...this.editpassword,
+       }
+       changePass(req).then(res=>{
+         console.log('3333333333',res);
+        if(res.status ===200){
+          this.passDialog =false
+          this.$message({
+            type: 'success',
+            message: '修改成功!'
+          })
+        }
+       }).catch((error)=>{
+          this.$message({
+            type: 'error',
+            message: error
+          });
+       }
+         
+       )
+
+     }
+   })
+  },
+
    handleClose(){
     this.$refs.authorityForm.resetFields()
     this.dialogVisible =false
@@ -302,11 +416,29 @@ initForm(){
     })
   })
    },
+   //启用按钮
    switchEnable(row){
     this.userInfo =JSON.parse(JSON.stringify(row))
+      const req = {
+    ...this.userInfo
+  }
+     editUser(req).then(res=>{
+        this.$message({
+          message:'修改成功',
+          type:'success'
+        });
+     console.log('sitch Res',res)
+      this.getTableData()
+     this.userInfo.authorityIds = []
+     }).catch(
+
+     )
+
+
 
 
    },
+   //刷新
    getTableData(){
     getUserList({page:1,pageSize:10}).then(({data})=>{
       console.log('11111',data)
