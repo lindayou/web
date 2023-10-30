@@ -169,7 +169,7 @@
 
 
 <script>
-import { getUserList,createUser,editUser,deleteUser,changePass} from '../../../api/user.js'
+import { getUserList,createUser,editUser,deleteUser,changePass,setUserAuthority} from '../../../api/user.js'
 import { getAuthorityList} from '../../../api/authority.js'
  export default {
    name: 'authority',
@@ -204,15 +204,10 @@ import { getAuthorityList} from '../../../api/authority.js'
         userId :0,
       },
     rules:{
-      authorityName:[
-        {
-          required:true,
-          message:'请输入角色名称',
-           trigger: 'blur' 
-        }],
          username:[
         {
-          required:true,message:'请输入用户名',
+          required:true,
+          message:'请输入用户名',
           trigger: 'blur' ,
           min:5,
         }],
@@ -331,6 +326,27 @@ enterAddUserDialog(){
     }
   })
 } ,
+//鼠标修改用户角色触发方法
+changeAuthority(row, flag, removeAuth){
+  const tempAuth = {}
+  if (flag) {
+    if (!removeAuth) {
+      tempAuth[row.ID] = [...row.authorityIds]
+    }
+    return
+  }
+  const res =  setUserAuthority({
+    userId: row.id,
+    authorityId: row.authorityIds
+  })
+  this.$message(
+    {
+      type:'success',
+      message:'设置成功'
+    }
+  )
+  this.getTableData()
+},
 
 initForm(){
     if (this.$refs.userForm) {
@@ -395,8 +411,9 @@ initForm(){
        }).catch((error)=>{
           this.$message({
             type: 'error',
-            message: error
+            message: '重置密码失败'
           });
+         this.passDialog =false
        }
          
        )

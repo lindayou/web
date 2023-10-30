@@ -23,3 +23,9 @@ export const changePass = (param) =>{
     return http.post('/api/user/changePass',param)
 }
 
+
+//设置用户权限
+export const setUserAuthority = (param) =>{
+    return http.post('/api/user/setUserAuthority',param)
+}
+

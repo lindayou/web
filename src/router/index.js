@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import Main from '@/views/Main.vue'
 import Authority from '@/views/admin/authority/authority.vue'
 import User from '@/views/admin/user/User.vue'
+import Menu from '@/views/admin/menu/Menu.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
           path:'user',
           name:'user',
           component:User,
+        },
+        {
+          path:'menu',
+          name:'menu',
+          component:Menu,
         },
      
     {
