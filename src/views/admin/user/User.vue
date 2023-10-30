@@ -1,66 +1,6 @@
 <template>
 <div>
- <!-- 新增角色弹窗 -->
-    <el-dialog
-     :visible.sync="addUserDialog"
-      title="用户"
-      :show-close="false"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-    >
-      <div style="height:60vh;overflow:auto;padding:0 12px;">
-        <el-form ref="userForm" :rules="rules" :model="userInfo" label-width="80px">
-          <el-form-item v-if="dialogFlag === 'add'" label="用户名" prop="username">
-            <el-input v-model="userInfo.username" />
-          </el-form-item>
-          <el-form-item v-if="dialogFlag === 'add'" label="密码" prop="password">
-            <el-input v-model="userInfo.password" />
-          </el-form-item>
-          <!-- <el-form-item label="昵称" prop="nickname">
-            <el-input v-model="userInfo.nickname" />
-          </el-form-item> -->
-          <el-form-item label="手机号" prop="phone">
-            <el-input v-model="userInfo.phone" />
-          </el-form-item>
-          <el-form-item label="邮箱" prop="email">
-            <el-input v-model="userInfo.email" />
-          </el-form-item>
-          <el-form-item label="用户角色" prop="authorityId">
-            <el-cascader
-              v-model="authorityIds"
-              style="width:100%"
-              :options="authOptions"
-              :show-all-levels="false"
-              :props="{ multiple:true,checkStrictly: true,label:'authorityName',value:'authorityId',disabled:'disabled',emitPath:false}"
-              :clearable="false"
-            />
-          </el-form-item>
-          <el-form-item label="启用" prop="disabled">
-            <el-switch
-              v-model="userInfo.enable"
-              inline-prompt
-              :active-value="1"
-              :inactive-value="2"
-            />
-          </el-form-item>
-          <!-- <el-form-item label="头像" label-width="80px">
-            <div style="display:inline-block" @click="openHeaderChange">
-              <img v-if="userInfo.headerImg" alt="头像" class="header-img-box" :src="(userInfo.headerImg && userInfo.headerImg.slice(0, 4) !== 'http')?path+userInfo.headerImg:userInfo.headerImg">
-              <div v-else class="header-img-box">从媒体库选择</div>
-            </div>
-          </el-form-item> -->
 
-        </el-form>
-
-      </div>
-
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="closeAddUserDialog">取 消</el-button>
-          <el-button type="primary" @click="enterAddUserDialog">确 定</el-button>
-        </div>
-      </template>
-    </el-dialog>
  
      <el-drawer v-if="drawer" v-model="drawer" custom-class="auth-drawer" :with-header="false" size="40%" title="角色配置">
        <el-tabs :before-leave="autoEnter" type="border-card">
@@ -131,8 +71,69 @@
             <el-button type="text" link icon="magic-stick" @click="resetPasswordFunc(scope.row)">重置密码</el-button>
           </template>
         </el-table-column>
-
       </el-table>
+
+       <!-- 新增角色弹窗 -->
+    <el-dialog
+     :visible.sync="addUserDialog"
+      title="用户"
+      :show-close="false"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+    >
+      <div style="height:60vh;overflow:auto;padding:0 12px;">
+        <el-form ref="userForm" :rules="rules" :model="userInfo" label-width="80px">
+          <el-form-item v-if="dialogFlag === 'add'" label="用户名" prop="username">
+            <el-input v-model="userInfo.username" />
+          </el-form-item>
+          <el-form-item v-if="dialogFlag === 'add'" label="密码" prop="password">
+            <el-input v-model="userInfo.password" />
+          </el-form-item>
+          <!-- <el-form-item label="昵称" prop="nickname">
+            <el-input v-model="userInfo.nickname" />
+          </el-form-item> -->
+          <el-form-item label="手机号" prop="phone">
+            <el-input v-model="userInfo.phone" />
+          </el-form-item>
+          <el-form-item label="邮箱" prop="email">
+            <el-input v-model="userInfo.email" />
+          </el-form-item>
+          <el-form-item label="用户角色" prop="authorityId">
+            <el-cascader
+              v-model="authorityIds"
+              style="width:100%"
+              :options="authOptions"
+              :show-all-levels="false"
+              :props="{ multiple:true,checkStrictly: true,label:'authorityName',value:'authorityId',disabled:'disabled',emitPath:false}"
+              :clearable="false"
+            />
+          </el-form-item>
+          <el-form-item label="启用" prop="disabled">
+            <el-switch
+              v-model="userInfo.enable"
+              inline-prompt
+              :active-value="1"
+              :inactive-value="2"
+            />
+          </el-form-item>
+          <!-- <el-form-item label="头像" label-width="80px">
+            <div style="display:inline-block" @click="openHeaderChange">
+              <img v-if="userInfo.headerImg" alt="头像" class="header-img-box" :src="(userInfo.headerImg && userInfo.headerImg.slice(0, 4) !== 'http')?path+userInfo.headerImg:userInfo.headerImg">
+              <div v-else class="header-img-box">从媒体库选择</div>
+            </div>
+          </el-form-item> -->
+
+        </el-form>
+
+      </div>
+
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="closeAddUserDialog">取 消</el-button>
+          <el-button type="primary" @click="enterAddUserDialog">确 定</el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -180,7 +181,8 @@ import { getAuthorityList} from '../../../api/authority.js'
    methods: {
        // 新增角色方法
  addUser() {
-    this.ialogFlag = 'add'
+  this.initForm()
+    this.dialogFlag = 'add'
   this.addUserDialog = true
   },
   //编辑角色方法
@@ -215,41 +217,45 @@ import { getAuthorityList} from '../../../api/authority.js'
   },
 
 enterAddUserDialog(){
-//  userInfo.value.authorityId = userInfo.value.authorityIds[0]
-//   userForm.value.validate(async valid => {
-//     if (valid) {
-//       const req = {
-//         ...userInfo.value
-//       }
-//       if (dialogFlag.value === 'add') {
-//         const res = await register(req)
-//         if (res.code === 0) {
-//           ElMessage({ type: 'success', message: '创建成功' })
-//           await getTableData()
-//           closeAddUserDialog()
-//         }
-//       }
-//       if (dialogFlag.value === 'edit') {
-//         const res = await setUserInfo(req)
-//         if (res.code === 0) {
-//           ElMessage({ type: 'success', message: '编辑成功' })
-//           await getTableData()
-//           closeAddUserDialog()
-//         }
-//       }
-//     }
-//   })
+  console.log('this.userInfo.authorityIds',this.userInfo.authorityIds)
+ this.userInfo.authorityId = 888
+ 
+  this.$refs.userForm.validate(async valid => {
+    if (valid) {
+      const req = {
+        ...this.userInfo
+      }
+      if (this.dialogFlag === 'add') {
+        const res = await createUser(req)
+        if (res.code === 0) {
+          ElMessage({ type: 'success', message: '创建成功' })
+          
+          
+        }
+         this.getTableData()
+        this.closeAddUserDialog()
+        console.log('addUser Res',res)
+      }
+      if (this.dialogFlag === 'edit') {
+        const res = await editUser(req)
+        // if (res.code === 0) {
+        //   ElMessage({ type: 'success', message: '编辑成功' })
+        //   await getTableData()
+         
+        // }
+        // console.log('this is editRes',res.code)
+        this.getTableData()
+        this.closeAddUserDialog()
+      }
+    }
+  })
 } ,
 
-  initForm(){
-    if (this.$refs.authorityForm) {
-    this.$refs.authorityForm.resetFields()
+initForm(){
+    if (this.$refs.userForm) {
+      this.$refs.userForm.resetFields()
   }
-  this.form = {
-    authorityId: 0,
-    authorityName: '',
-    parentId: 0
-  }
+  this.userInfo = {}
   },
  setOptions(authData){
     this.authOptions =[]
@@ -278,17 +284,35 @@ enterAddUserDialog(){
   },
 
    closeAddUserDialog(){
+
+    console.log('this is this',this)
   this.$refs.userForm.resetFields()
+  console.log('this is userForm',this)
   this.userInfo.authorityIds = []
   this.addUserDialog= false
    },
+   handleClose(){
+    this.$refs.authorityForm.resetFields()
+    this.dialogVisible =false
+  },
    setAuthorityIds(){
         this.tableData && this.tableData.forEach((user) => {
     user.authorityIds = user.authorities && user.authorities.map(i => {
       return i.authorityId
     })
   })
-   }
+   },
+   switchEnable(row){
+    this.userInfo =JSON.parse(JSON.stringify(row))
+
+
+   },
+   getTableData(){
+    getUserList({page:1,pageSize:10}).then(({data})=>{
+      console.log('11111',data)
+      this.tableData =data.userList
+    })
+   },
    },
    mounted() {
     getUserList({page:1,pageSize:10}).then(({data})=>{
@@ -299,7 +323,6 @@ enterAddUserDialog(){
      this.setOptions(data.authorityList)
     })
     
- 
    },
    watch: {
     tableData(){
