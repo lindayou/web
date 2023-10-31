@@ -37,27 +37,29 @@
               type="text"
               link
               icon="plus"
-              @click="addMenu(scope.row.ID)"
+              @click="addMenu(scope.row.id)"
             >添加子菜单</el-button>
             <el-button
               type="text"
               link
               icon="edit"
-              @click="editMenu(scope.row.ID)"
+              @click="editMenu(scope.row)"
             >编辑</el-button>
             <el-button
 
               type="text"
               link
               icon="delete"
-              @click="deleteMenu(scope.row.ID)"
+              @click="deleteMenu(scope.row)"
             >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <!-- <el-dialog v-model="dialogFormVisible" :before-close="handleClose" :title="dialogTitle">
-      <warning-bar title="新增菜单，需要在角色管理内配置权限才可使用" />
+    
+    <!-- 弹窗 -->
+  <el-dialog :visible.sync="dialogFormVisible" :before-close="handleClose" :title="dialogTitle">
+      <!-- <warning-bar title="新增菜单，需要在角色管理内配置权限才可使用" /> -->
       <el-form
         v-if="dialogFormVisible"
         ref="menuForm"
@@ -107,20 +109,20 @@
             filterable
           />
         </el-form-item>
-        <el-form-item label="文件路径" prop="component" style="width:60%">
+        <!-- <el-form-item label="文件路径" prop="component" style="width:60%">
           <el-input v-model="form.component" autocomplete="off" placeholder="页面:view/xxx/xx.vue 插件:plugin/xx/xx.vue" @blur="fmtComponent" />
           <span style="font-size:12px;margin-right:12px;">如果菜单包含子菜单，请创建router-view二级路由页面或者</span><el-button style="margin-top:4px" @click="form.component = 'view/routerHolder.vue'">点我设置</el-button>
+        </el-form-item> -->
+        <el-form-item label="展示名称" prop="title" style="width:30%">
+          <el-input v-model="form.title" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="展示名称" prop="meta.title" style="width:30%">
-          <el-input v-model="form.meta.title" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="图标" prop="meta.icon" style="width:30%">
+        <!-- <el-form-item label="图标" prop="icon" style="width:30%">
           <icon :meta="form.meta" style="width:100%" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="排序标记" prop="sort" style="width:30%">
           <el-input v-model.number="form.sort" autocomplete="off" />
         </el-form-item>
-        <el-form-item prop="meta.activeName" style="width:30%">
+        <!-- <el-form-item prop="activeName" style="width:30%">
           <template #label>
             <div>
               <span> 高亮菜单 </span>
@@ -129,16 +131,16 @@
               </el-tooltip>
             </div>
           </template>
-          <el-input v-model="form.meta.activeName" :placeholder="form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="KeepAlive" prop="meta.keepAlive" style="width:30%">
-          <el-select v-model="form.meta.keepAlive" style="width:100%" placeholder="是否keepAlive缓存页面">
+          <el-input v-model="form.activeName" :placeholder="form.name" autocomplete="off" />
+        </el-form-item> -->
+        <el-form-item label="KeepAlive" prop="keepAlive" style="width:30%">
+          <el-select v-model="form.keepAlive" style="width:100%" placeholder="是否keepAlive缓存页面">
             <el-option :value="false" label="否" />
             <el-option :value="true" label="是" />
           </el-select>
         </el-form-item>
-        <el-form-item label="CloseTab" prop="meta.closeTab" style="width:30%">
-          <el-select v-model="form.meta.closeTab" style="width:100%" placeholder="是否自动关闭tab">
+        <!-- <el-form-item label="CloseTab" prop="closeTab" style="width:30%">
+          <el-select v-model="form.closeTab" style="width:100%" placeholder="是否自动关闭tab">
             <el-option :value="false" label="否" />
             <el-option :value="true" label="是" />
           </el-select>
@@ -153,13 +155,13 @@
             </div>
           </template>
 
-          <el-select v-model="form.meta.defaultMenu" style="width:100%" placeholder="是否为基础页面">
+          <el-select v-model="form.defaultMenu" style="width:100%" placeholder="是否为基础页面">
             <el-option :value="false" label="否" />
             <el-option :value="true" label="是" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
-      <div>
+      <!-- <div>
         <div class="flex items-center gap-2">
           <el-button
             type="primary"
@@ -245,19 +247,25 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
+      </div> -->
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="closeDialog">取 消</el-button>
           <el-button type="primary" @click="enterDialog">确 定</el-button>
         </div>
+        
       </template>
-    </el-dialog> -->
-  </div>
+    </el-dialog> 
+
+
+
+
+</div>
+
 </template>
 
 <script>
-import { getMenuList} from '../../../api/menu.js'
+import { getMenuList,addMenu,editMenu,deleteMenu} from '../../../api/menu.js'
 export default {
    name: 'menu',
    props: {
@@ -267,13 +275,170 @@ export default {
    },
    data () {
      return {
-        tableData:[]
+        tableData:[],
+        dialogFormVisible:false,
+        dialogTitle:'新增菜单',
+        form:{},
+        isEdit:false,
+        menuOption:[],
+        checkFlag:false,
+        rules:{
+          path:[
+            {
+              required:true,
+              trigger:'blur',
+            }
+          ]
+
+        }
+
     
      }
    },
    methods: {
+    //新增菜单
+    addMenu(id){
+      this.dialogTitle = '新增菜单'
+      this.form.parentId = String(id)
+      this.isEdit = false
+       this.setOptions()
+      this.dialogFormVisible =true
+      
+    },
+    //编辑菜单
+    editMenu(row){
+       this.dialogTitle = '编辑菜单'
+       this.isEdit = true
+       this.form =row
+       this.setOptions()
+       this.dialogFormVisible =true
+
+    },
+    //删除菜单
+    deleteMenu(row){
+      this.$confirm('是否删除此菜单?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const req ={
+            id:row.id
+          }
+          console.log('id',row.id)
+          console.log('req',req)
+          deleteMenu(req).then(res=>{
+               console.log(res)
+            }
+          )
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+          this.getTable()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+        
+    },
+    setOptions(){
+       this.menuOption = [
+
+        {
+          ID: '0',
+          title: '根目录'
+      }
+  ]
+    this.setMenuOptions(this.tableData, this.menuOption, false) 
+    },
+    setMenuOptions(menuData, optionsData, disabled){
+      menuData &&
+        menuData.forEach(item => {
+          if (item.children && item.children.length) {
+            const option = {
+              title: item.title,
+              ID: String(item.ID),
+              disabled: disabled || item.ID === this.form.ID,
+              children: []
+            }
+            this.setMenuOptions(
+              item.children,
+              option.children,
+              disabled || item.ID === this.form.ID
+            )
+            optionsData.push(option)
+          } else {
+            const option = {
+              title: item.title,
+              ID: String(item.ID),
+              disabled: disabled || item.ID === this.form.ID
+            }
+            optionsData.push(option)
+          }
+        })
+
+    },
+    
+    //关闭菜单执行
+    handleClose(){
  
+    },
+    //取消按钮
+    closeDialog(){
+   this.dialogFormVisible =false
+    },
+    //确定按钮
+    enterDialog(){
+      this.$refs.menuForm.validate(valid=>{
+        if(valid){
+          if(this.isEdit){
+            editMenu(this.form).then(res=>{
+              console.log('editMenu',res)
+               this.getTable()
+            }
+           
+
+            ) 
+          }else{
+            console.log('addform',this.form)
+            addMenu(this.form).then(res=>{
+              console.log('addMenu',res)
+              this.getTable()
+            }
+
+            )
+          }
+        }
+        this.$refs.menuForm.resetFields()
+        this.form={}
+        this.dialogFormVisible =false
+        this.getTable()
+
+      })
+    
+    },
+    changeName(){
+
+    },
+   
+    fmtComponent(){
+
+    },
+    changeName(){
+      this.form.path = this.form.name
+    },
+     getTable(){
+        getMenuList().then(({data})=>{
+         console.log('data',data)
+        this.tableData =data.menuList
+        console.log(this.tableData)
+    })
+
    },
+   },
+  
    mounted() {
     getMenuList().then(({data})=>{
          console.log('data',data)
