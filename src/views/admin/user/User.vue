@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="manage">
 
  
      <el-drawer v-if="drawer" v-model="drawer" custom-class="auth-drawer" :with-header="false" size="40%" title="角色配置">
@@ -15,9 +15,11 @@
          <el-button type="primary" icon="plus" @click="addUser">新增用户</el-button>
          <!-- <el-icon  class="cursor-pointer" @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT?p=8&vd_source=f2640257c21e3b547a790461ed94875e')"><VideoCameraFilled /></el-icon> -->
        </div>
+       <div class="common-table">
         <el-table
         :data="tableData"
         row-key="id"
+        height="90%"
       >
         <!-- <el-table-column align="left" label="头像" min-width="75">
           <template #default="scope">
@@ -73,7 +75,14 @@
           </template>
         </el-table-column>
       </el-table>
-
+      <div class="pager">
+  <el-pagination
+    layout="prev, pager, next"
+    :total="total">
+  </el-pagination>
+  </div>
+       </div>
+        
        <!-- 新增角色弹窗 -->
     <el-dialog
      :visible.sync="addUserDialog"
@@ -161,9 +170,10 @@
           <el-button type="primary" @click="submitPass">确 定</el-button>
         </div>
       </template>
-
-
     </el-dialog>
+
+
+    
   </div>
 </template>
 
@@ -181,6 +191,7 @@ import { getAuthorityList} from '../../../api/authority.js'
    data () {
      return {
       tableData: [],
+      total:0,
       authorityIds:888,
     addUserDialog: false,
     dialogTitle:'',
@@ -467,6 +478,7 @@ initForm(){
     getUserList({page:1,pageSize:10}).then(({data})=>{
       console.log('11111',data)
       this.tableData =data.userList
+      this.total =data.total
     }),
     getAuthorityList().then(({data})=>{
      this.setOptions(data.authorityList)
@@ -497,5 +509,16 @@ initForm(){
       color: #000;
       background: transparent;
 }
-
+.manage{
+  height: 90%;
+ .common-table{
+  position: relative;
+  height: 90%;
+  .pager{
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+  }
+ }
+}
 </style>
