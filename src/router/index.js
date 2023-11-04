@@ -5,6 +5,7 @@ import Main from '@/views/Main.vue'
 import Authority from '@/views/admin/authority/authority.vue'
 import User from '@/views/admin/user/User.vue'
 import Menu from '@/views/admin/menu/Menu.vue'
+import Login from '@/views/login/Login.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -45,6 +46,12 @@ const routes = [
 
 
   },
+  {
+    path:'/login',
+    name:'login',
+    component:Login,
+
+  }
 
   
   ]

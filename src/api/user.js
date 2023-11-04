@@ -29,3 +29,6 @@ export const setUserAuthority = (param) =>{
     return http.post('/api/user/setUserAuthority',param)
 }
 
+export const userLogin = (param) =>{
+    return http.post('/api/user/login',param)
+}
