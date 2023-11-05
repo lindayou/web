@@ -27,6 +27,8 @@
 
 <script>
 import { getMenuData } from '../../api/index.js'
+import { mapState } from "vuex";
+import Cookies  from "js-cookie";
  export default {
    name: 'commonAside',
    props: {
@@ -36,7 +38,6 @@ import { getMenuData } from '../../api/index.js'
    },
    data () {
      return {
-       menuData:[],
      }
    },
    methods: {
@@ -69,7 +70,7 @@ import { getMenuData } from '../../api/index.js'
 
    },
    mounted() {
-        this.getMenuList()
+        
    },
    watch: {
 
@@ -83,6 +84,9 @@ import { getMenuData } from '../../api/index.js'
     },
     isCollapse(){
       return this.$store.state.tab.isCollapse
+    },
+    menuData(){
+      return JSON.parse(Cookies.get('menu')) ||  this.$store.state.tab.menu
     }
    },
    filters: {

@@ -58,6 +58,9 @@
 
 <script>
    import {userLogin}  from '../../api/user.js'
+   import {getMenuAuthority} from '../../api/menu.js'
+   import Cookie from 'js-cookie'
+import { mapMutations } from 'vuex'
  export default {
   
    name: 'Login',
@@ -86,10 +89,24 @@
      }
    },
    methods: {
+    ...mapMutations('login',['setUser']),
+    ...mapMutations('tab',['setMenu']),
        submitForm(){
+        getMenuAuthority({authorityId:8881}).then(res=>{
+            this.setMenu(res.data.menuList)
+            console.log('res1',res.data.menuList)
+           })
+        
            userLogin(this.form).then(res=>{
                console.log(res)
+               this.setUser({
+                username:this.form.username,
+                token:res.data.data.token})
+                 
+                this.$store.commit('addMenu',this.$router)
+               this.$router.push('/')
            })
+         
        }
 
    },
@@ -107,6 +124,7 @@
    }
  }
 </script>
+
 
 <style lang='less' scoped>
  .title {

@@ -20,7 +20,7 @@ switch (response.data.code){
     Vue.prototype.$message.error(response.data.msg)
 }
     // 对响应数据做点什么
-    return response.data;
+    return response;
   }, function (error) {
     // 对响应错误做点什么
     if (err.response.data.message) {
