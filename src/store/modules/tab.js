@@ -1,4 +1,6 @@
 import Cookies  from "js-cookie"
+import  router,{baseRoute,allMenu}  from '@/router/index'
+import {rulesMenu} from '@/utils/common'
 const state = {
   isCollapse:false ,//控制菜单
   menu:[],
@@ -19,11 +21,16 @@ const mutations = {
     if(!Cookies.get('menu')){
       return      
     }
-    const menu =JSON.parse(Cookies.get('menu'))
-    state.menu =menu
-    menu.forEach(item => {
-      
-    });
+    const menuData =JSON.parse(Cookies.get('menu'))
+    state.menu =menuData
+    console.log('allMenu  ',allMenu,)
+    console.log('baseRoute  ',baseRoute,)
+    
+    console.log('menuData',menuData)
+    let myMenu = rulesMenu(allMenu,menuData)
+    // let myMenu = rulesMenu(routerMap,menuData)
+    console.log('myMenu ',myMenu)
+   
 
   },
 

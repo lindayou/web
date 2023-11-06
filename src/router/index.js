@@ -1,51 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
+import DashBoard from '@/views/Home.vue'
 import Main from '@/views/Main.vue'
-import Authority from '@/views/admin/authority/authority.vue'
-import User from '@/views/admin/user/User.vue'
-import Menu from '@/views/admin/menu/Menu.vue'
 import Login from '@/views/login/Login.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path:'/',
-    name:'main',
-    redirect:'/dashboard',
-    component:Main,
-    children:[
-      {
-        path:"home",
-        name:'home',
-        component:Home,
-    },
-    
-        {
-          path:'authority',
-          name:'authority',
-          component:Authority,
-        },
-        {
-          path:'user',
-          name:'user',
-          component:User,
-        },
-        {
-          path:'menu',
-          name:'menu',
-          component:Menu,
-        },
-     
-    {
-      path:"dashboard",
-      name:'dashboard',
-      component:Home,
-  },
-    ]
-
-
-  },
   {
     path:'/login',
     name:'login',
@@ -53,8 +13,23 @@ const routes = [
 
   }
 
+]
   
-  ]
+export const baseRoute= [
+  {
+    path:'/',
+    name:'main',
+    component:Main,
+    children:[
+      {
+        path:'dashboard',
+        name:'dashboard',
+        component:DashBoard,
+      }
+
+    ]
+
+  }]
 
 const router = new VueRouter({
   routes // (缩写) 相当于 routes: routes
