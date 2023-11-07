@@ -1,53 +1,31 @@
 
 
-
+import  {cloneDeep} from 'loadsh'
 export function rulesMenu(menu,menuData){
     let menuArr =[]
-//遍历前端菜单 
-menu.forEach(ele => {
-
+//遍历前端菜单
+let arr =cloneDeep(menu)
+arr.forEach(ele => {
+    //  debugger
     menuData.forEach(item => {
-        const pushMenu ={}
-        if (ele.name=item.path ){
+        if (ele.name===item.path ){
+            // debugger
             if( item.children && item.children.length >0){
-                rulesMenu(ele.children,item.children)
+                // debugger
+                ele.children=rulesMenu(ele.children,item.children)
 
-            }else{
-                pushMenu ={
-                    path:ele.path,
-                    name:ele.name,
-                    component:ele.component
-                }
-    
-    
             }
+            menuArr.push(ele)
         }
 
-        
-    });
-    menuArr.push(pushMenu)
-    
+
+
+    })
+
+
+
 });
-    // console.log('in--menu',menu)
-    // let menuArr =[]
 
-    // menu.forEach(ele => {
-    //     menuData.forEach(item => {
-    //         if(ele.name =item.path){
-             
-    //             if(item.children &&item.children.length>0){
-    //                 ele.children =rulesMenu(ele.children,item.children)
-
-    //             }
-    //             menuArr.push(ele)
-               
-               
-    //         }
-            
-    //     });
-        
-    // });
-
-    // return menuArr 
-
+return menuArr
 }
+

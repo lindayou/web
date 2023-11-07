@@ -90,26 +90,15 @@ import { mapMutations } from 'vuex'
    },
    methods: {
     ...mapMutations('login',['setUser']),
-    ...mapMutations('tab',['setMenu']),
     ...mapMutations('tab',['addMenu']),
        submitForm(){
-         
-        getMenuAuthority({authorityId:8881}).then(res=>{
-            this.setMenu(res.data.menuList)
-            console.log('res1',res.data.menuList)
-            Cookie.set('menu',JSON.stringify(res.data.menuList))
-           })
-        this.addMenu(this.$router)
-
-
-
            userLogin(this.form).then(res=>{
                console.log(res)
                this.setUser({
                 username:this.form.username,
                 token:res.data.data.token})
                 
-               this.$router.push('/')
+               this.$router.push('/dashboard')
            })
          
        }

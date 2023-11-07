@@ -86,7 +86,7 @@ import Cookies  from "js-cookie";
       return this.$store.state.tab.isCollapse
     },
     menuData(){
-      return JSON.parse(Cookies.get('menu')) ||  this.$store.state.tab.menu
+      return   this.$store.state.tab.menu
     }
    },
    filters: {

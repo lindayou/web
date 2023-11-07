@@ -11,14 +11,13 @@ const routes = [
     name:'login',
     component:Login,
 
-  }
-
-]
-  
-export const baseRoute= [
+  },
   {
     path:'/',
     name:'main',
+    meta:{
+    isLogin:false
+    },
     component:Main,
     children:[
       {
@@ -29,11 +28,33 @@ export const baseRoute= [
 
     ]
 
-  }]
+  }
+
+]
+  
+export const baseRoute= [
+  // {
+  //   path:'/',
+  //   name:'main',
+  //   meta:{
+  //   isLogin:false
+  //   },
+  //   component:Main,
+  //   children:[
+  //     {
+  //       path:'dashboard',
+  //       name:'dashboard',
+  //       component:DashBoard,
+  //     }
+
+  //   ]
+
+  // }
+]
 
 const router = new VueRouter({
   routes // (缩写) 相当于 routes: routes
 })
 
-router.beforeEach()
+
 export default router
