@@ -7,16 +7,38 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path:'/',
+    name:'main',
+    meta:{
+    isLogin:true
+    },
+    component:Main,
+    children:[
+      {
+        path:'dashboard',
+        name:'dashboard',
+        component:DashBoard,
+      }
+
+    ]
+
+  },
+  {
     path:'/login',
     name:'login',
     component:Login,
 
   },
+  
+
+]
+  
+export const baseRoute= [
   {
     path:'/',
     name:'main',
     meta:{
-    isLogin:false
+    isLogin:true
     },
     component:Main,
     children:[
@@ -29,27 +51,6 @@ const routes = [
     ]
 
   }
-
-]
-  
-export const baseRoute= [
-  // {
-  //   path:'/',
-  //   name:'main',
-  //   meta:{
-  //   isLogin:false
-  //   },
-  //   component:Main,
-  //   children:[
-  //     {
-  //       path:'dashboard',
-  //       name:'dashboard',
-  //       component:DashBoard,
-  //     }
-
-  //   ]
-
-  // }
 ]
 
 const router = new VueRouter({

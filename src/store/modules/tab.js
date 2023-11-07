@@ -4,7 +4,6 @@ import  router,{baseRoute}  from '@/router/index'
 import {rulesMenu,} from '@/utils/common'
 import  {cloneDeep} from 'loadsh'
 import {getMenuAuthority} from '@/api/menu'
-import { getAuthorityList } from "@/api/authority"
 const state = {
   isCollapse:false ,//控制菜单
   menu:[],
@@ -18,6 +17,7 @@ const mutations = {
   //设置菜单导航
   setMenu(state,val){
     state.menu =val
+    console.log('setMenu Over')
 
   },
   //清除菜单导航
@@ -35,7 +35,7 @@ const actions = {
     let res = await getMenuAuthority({authorityId:8881})
 
   console.log('后端返回的菜单信息',res.data)
-  let myMenu = rulesMenu(routerMap,menuData)
+  let myMenu = rulesMenu(routerMap,res.data.menuList)
   console.log('myMenu ',myMenu)
   commit('setMenu',myMenu)
   //添加

@@ -89,6 +89,11 @@ import Cookies  from "js-cookie";
       return   this.$store.state.tab.menu
     }
    },
+   created(){
+    let res =this.$store.state.tab.menu
+    console.log('createdres',res)
+
+   },
    filters: {
 
    }
