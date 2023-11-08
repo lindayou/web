@@ -11,6 +11,7 @@ arr.forEach(ele => {
         if (ele.name===item.path ){
             // debugger
             if( item.children && item.children.length >0){
+                
                 // debugger
                 ele.children=rulesMenu(ele.children,item.children)
 

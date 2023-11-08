@@ -5,21 +5,13 @@
       text-color="#fff"
       active-text-color="#ffd04b">
        <h3>{{isCollapse ? '后台':'后台管理系统'}}</h3>
-    <el-menu-item @click="clickMenu(item)" v-for="item in noChildren" :key="item.id" :index="item.path" >
-    <i :class="`el-icon-${item.icon}`"></i>
-    <span slot="title">{{item.title}}</span>
+   <!-- 动态菜单 -->
+   <el-menu-item @click="toPage('dashboard')"   >
+    <!-- <i :class="`el-icon-${item.icon}`"></i> -->
+    <span slot="title">首页</span>
   </el-menu-item>
-  <el-submenu v-for="item in hasChildren" :key="item.id" :index="item.name">
-    <template slot="title">
-      <i :class="`el-icon-${item.icon}`"></i>
-      <span slot="title">{{item.title}}</span>
-    </template>
-    <el-menu-item-group>
-      <el-menu-item @click="clickMenu(subItem)" v-for="subItem in item.children" :key="subItem.id" :index="subItem.name">{{subItem.title}}</el-menu-item>
-    </el-menu-item-group>
-    
-  </el-submenu>
-
+ 
+     <Menu :MenuList="menu" ></Menu>
  
 </el-menu>
  </div>
@@ -29,18 +21,22 @@
 import { getMenuData } from '../../api/index.js'
 import { mapState } from "vuex";
 import Cookies  from "js-cookie";
+import Menu from './Menu.vue'
  export default {
    name: 'commonAside',
    props: {
    },
    components: {
-
+     Menu
    },
    data () {
      return {
      }
    },
    methods: {
+     toPage(name){
+       this.$router.push({name})
+     },
         handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
@@ -75,7 +71,13 @@ import Cookies  from "js-cookie";
    watch: {
 
    },
+     computed: {
+   
+
+   },
+ 
    computed: {
+      ...mapState('tab',['menu']),
     noChildren(){
      return this.menuData.filter(item=>!item.children)
     },
@@ -89,11 +91,11 @@ import Cookies  from "js-cookie";
       return   this.$store.state.tab.menu
     }
    },
-   created(){
-    let res =this.$store.state.tab.menu
-    console.log('createdres',res)
+     created(){
+    console.log('加载动态导航菜单',this.menu)
 
    },
+ 
    filters: {
 
    }

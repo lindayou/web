@@ -7,23 +7,6 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path:'/',
-    name:'main',
-    meta:{
-    isLogin:true
-    },
-    component:Main,
-    children:[
-      {
-        path:'dashboard',
-        name:'dashboard',
-        component:DashBoard,
-      }
-
-    ]
-
-  },
-  {
     path:'/login',
     name:'login',
     component:Login,
@@ -45,7 +28,10 @@ export const baseRoute= [
       {
         path:'dashboard',
         name:'dashboard',
-        component:DashBoard,
+        meta:{
+          title:'首页',
+        },
+        // component:DashBoard,
       }
 
     ]

@@ -15,8 +15,9 @@
          <el-button type="primary" icon="plus" @click="addUser">新增用户</el-button>
          <!-- <el-icon  class="cursor-pointer" @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT?p=8&vd_source=f2640257c21e3b547a790461ed94875e')"><VideoCameraFilled /></el-icon> -->
        </div>
-       <div class="common-table">
-        <el-table
+
+       <div class="table">
+         <el-table
         :data="tableData"
         row-key="id"
         height="90%"
@@ -75,13 +76,16 @@
           </template>
         </el-table-column>
       </el-table>
+       </div>
+      
+        
       <div class="pager">
   <el-pagination
     layout="prev, pager, next"
     :total="total">
   </el-pagination>
   </div>
-       </div>
+      
         
        <!-- 新增角色弹窗 -->
     <el-dialog
@@ -511,9 +515,9 @@ initForm(){
 }
 .manage{
   height: 90%;
- .common-table{
+ .table{
   position: relative;
-  height: 90%;
+  height: 90vh;
   .pager{
     position: absolute;
     bottom: 0;

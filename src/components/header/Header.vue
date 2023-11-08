@@ -48,14 +48,18 @@ import { mapState } from "vuex";
       if (commod ==='logout'){
         
       this.removeUser()
+      this.removeMenu()
       this.$router.push('/login')
 
       }
 
     },
-    ...mapMutations('login',['removeUser'])
+    ...mapMutations('login',['removeUser']),
+      ...mapMutations('tab',['removeMenu']),
+    
    },
    mounted() {
+           console.log('this is router',this.$route)
 
    },
    watch: {

@@ -1,63 +1,8 @@
 <template>
     <div class="manage">
- 
-      <div class="gva-btn-list">
-        <el-button type="primary" icon="plus" @click="addMenu('0')">新增根菜单</el-button>
-        <el-icon  class="cursor-pointer" @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT/?p=4&vd_source=f2640257c21e3b547a790461ed94875e')"><VideoCameraFilled /></el-icon>
-      </div>
+        <!-- 弹窗 -->
 
-      <!-- 由于此处菜单跟左侧列表一一对应所以不需要分页 pageSize默认999 -->
-      <el-table :data="tableData" row-key="id" height="90%">
-        <el-table-column align="left" label="ID" min-width="100" prop="id" />
-        <el-table-column align="left" label="展示名称" min-width="120" prop="title">
-          <!-- <template #default="scope">
-            <span>{{ scope.row.meta.title }}</span>
-          </template> -->
-        </el-table-column>
-        <el-table-column align="left" label="图标" min-width="140" prop="icon">
-          <template #default="scope">
-            <div v-if="scope.row.icon" class="icon-column">
-                <i :class="`el-icon-${scope.row.icon}`"></i>
-              <span>{{ scope.row.icon }}</span>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column align="left" label="路由Name" show-overflow-tooltip min-width="160" prop="name" />
-        <el-table-column align="left" label="路由Path" show-overflow-tooltip min-width="160" prop="path" />
-        <el-table-column align="left" label="是否隐藏" min-width="100" prop="hidden">
-          <template #default="scope">
-            <span>{{ scope.row.hidden?"隐藏":"显示" }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="left" label="父节点" min-width="90" prop="parentId" />
-        <el-table-column align="left" label="排序" min-width="70" prop="sort" />
-        <el-table-column align="left" fixed="right" label="操作" width="300">
-          <template #default="scope">
-            <el-button
-              type="text"
-              link
-              icon="plus"
-              @click="addMenu(scope.row.id)"
-            >添加子菜单</el-button>
-            <el-button
-              type="text"
-              link
-              icon="edit"
-              @click="editMenu(scope.row)"
-            >编辑</el-button>
-            <el-button
-
-              type="text"
-              link
-              icon="delete"
-              @click="deleteMenu(scope.row.id)"
-            >删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    
-    <!-- 弹窗 -->
-    <el-dialog :visible.sync="DialogVisible" :before-close="handleClose" :title="dialogTitle">
+      <el-dialog :visible.sync="DialogVisible" :before-close="handleClose" :title="dialogTitle">
       <!-- <warning-bar title="新增菜单，需要在角色管理内配置权限才可使用" /> -->
       <el-form
         v-if="dialogFormVisible"
@@ -254,12 +199,68 @@
         </div>
       </template>
     </el-dialog>
-    <div class="block">
-  <el-pagination
-    layout="prev, pager, next"
-    :total="50">
-  </el-pagination>
-</div>
+
+
+
+      <div class="manage-header">
+        <el-button type="primary" icon="plus" @click="addMenu('0')">新增根菜单</el-button>
+        <el-icon  class="cursor-pointer" @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT/?p=4&vd_source=f2640257c21e3b547a790461ed94875e')"><VideoCameraFilled /></el-icon>
+      
+      
+      </div>
+
+    <div class="table">
+       <el-table :data="tableData" row-key="id" >
+        <el-table-column align="left" label="ID" min-width="100" prop="id" />
+        <el-table-column align="left" label="展示名称" min-width="120" prop="title">
+          <!-- <template #default="scope">
+            <span>{{ scope.row.meta.title }}</span>
+          </template> -->
+        </el-table-column>
+        <el-table-column align="left" label="图标" min-width="140" prop="icon">
+          <template #default="scope">
+            <div v-if="scope.row.icon" class="icon-column">
+                <i :class="`el-icon-${scope.row.icon}`"></i>
+              <span>{{ scope.row.icon }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="路由Name" show-overflow-tooltip min-width="160" prop="name" />
+        <el-table-column align="left" label="路由Path" show-overflow-tooltip min-width="160" prop="path" />
+        <el-table-column align="left" label="是否隐藏" min-width="100" prop="hidden">
+          <template #default="scope">
+            <span>{{ scope.row.hidden?"隐藏":"显示" }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="父节点" min-width="90" prop="parentId" />
+        <el-table-column align="left" label="排序" min-width="70" prop="sort" />
+        <el-table-column align="left" fixed="right" label="操作" width="300">
+          <template #default="scope">
+            <el-button
+              type="text"
+              link
+              icon="plus"
+              @click="addMenu(scope.row.id)"
+            >添加子菜单</el-button>
+            <el-button
+              type="text"
+              link
+              icon="edit"
+              @click="editMenu(scope.row)"
+            >编辑</el-button>
+            <el-button
+
+              type="text"
+              link
+              icon="delete"
+              @click="deleteMenu(scope.row.id)"
+            >删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+    </div>
+      
   </div>
 </template>
 
@@ -449,9 +450,16 @@ export default {
 
 </script>
 
-<style>
+<style lang='less' scoped>
 .manage{
+ 
 height: 90%;
+ .table {
+   height: 80vh;
+  }
+
+
+
 
 
 }

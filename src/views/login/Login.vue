@@ -93,10 +93,13 @@ import { mapMutations } from 'vuex'
     ...mapMutations('tab',['addMenu']),
        submitForm(){
            userLogin(this.form).then(res=>{
-               console.log(res)
+               console.log('登录接口返回结果',res)
+               //设置stroe信息
                this.setUser({
                 username:this.form.username,
-                token:res.data.data.token})
+                token:res.data.data.token,
+                authorityId :res.data.data.authorityId,
+                })
                 
                this.$router.push('/dashboard')
            })

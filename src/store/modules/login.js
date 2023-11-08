@@ -3,6 +3,7 @@ const state = {
   userInfo :{
     username:'',
     token:'',
+    authorityId:0,
   }
    
   
@@ -11,7 +12,8 @@ const state = {
   const mutations = {
 
     setUser(state,payload){
-      state.userInfo = payload
+      state.userInfo = payload,
+      console.log('保存登录信息到stroe完成',state.userInfo)
 
     },
 
@@ -19,6 +21,7 @@ const state = {
       state.userInfo ={
         username:'',
         token:'',
+
       }
     }
     
