@@ -1,9 +1,12 @@
 <template>
  <div class ="header-container">
   <div class="l-content">
-      <el-button icon ="el-icon-menu" @click="handleMenu" size="mini"></el-button>
-      <span class="text">首页</span>
+      <el-button icon ="el-icon-menu" style="margin-right: 20px;" @click="handleMenu" size="mini"></el-button>
+      <el-breadcrumb separator="/">
+  <el-breadcrumb-item v-for="item in tabList" :key="item.name" :to="{ name: item.name }">{{ item.title }}</el-breadcrumb-item>
+</el-breadcrumb>
   </div>
+
     <div  class="r-content">
       <span class="welcome"> 欢迎用户{{ userInfo.username }}</span>
 
@@ -66,7 +69,8 @@ import { mapState } from "vuex";
 
    },
    computed: {
-    ...mapState('login',['userInfo'])
+    ...mapState('login',['userInfo']),
+    ...mapState('tab',['tabList']),
   
    },
    filters: {
@@ -99,6 +103,25 @@ import { mapState } from "vuex";
            height: 40px;
            border-radius: 50%;
        }
+   }
+   .l-content{
+    display: flex;
+    align-items: center;
+    /deep/.el-breadcrumb__item{
+      .el-breadcrumb__inner {
+        font-weight: normal;
+        &.is-link{
+          color: #666;
+        }
+      }
+      &:last-child{
+        .el-breadcrumb__inner{
+          color: #fff;
+        }
+
+      }
+
+    }
    }
 }
 

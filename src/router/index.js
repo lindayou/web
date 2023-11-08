@@ -20,6 +20,7 @@ export const baseRoute= [
   {
     path:'/',
     name:'main',
+    redirect:'/dashboard',
     meta:{
     isLogin:true
     },
@@ -28,6 +29,7 @@ export const baseRoute= [
       {
         path:'dashboard',
         name:'dashboard',
+        component:DashBoard,
         meta:{
           title:'首页',
         },

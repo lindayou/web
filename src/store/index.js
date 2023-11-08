@@ -14,7 +14,7 @@ export default new Vuex.Store({
   plugins:[
     createPersistedstate({
       key:'info',
-      paths:[]
+      paths:['login']
     })
   ]
 })

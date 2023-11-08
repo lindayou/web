@@ -224,7 +224,7 @@ import { getAuthorityList} from '../../../api/authority.js'
           required:true,
           message:'请输入用户名',
           trigger: 'blur' ,
-          min:5,
+          min:3,
         }],
          password:[
         {
@@ -311,7 +311,7 @@ import { getAuthorityList} from '../../../api/authority.js'
 //弹窗确定
 enterAddUserDialog(){
   console.log('this.userInfo.authorityIds',this.userInfo.authorityIds)
- this.userInfo.authorityId = 888
+ this.userInfo.authorityId = this.userInfo.authorityIds[0]
  
   this.$refs.userForm.validate(async valid => {
      console.log('$22222222222222222222222',this.$refs)

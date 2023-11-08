@@ -7,12 +7,32 @@ import {getMenuAuthority} from '@/api/menu'
 const state = {
   isCollapse:false ,//控制菜单
   menu:[],
+  //面包屑
+  tabList:[
+    {
+      path:'/',
+      name:'dashboard',
+      title:"首页",
+    }
+
+  ]
   
 }
  
 const mutations = {
   collapseMenu(state){
      state.isCollapse =!state.isCollapse
+  },
+  //更新面包屑
+  selectMenu(state,val){
+    if (val.name !=='home') {
+      const index =state.tabList.findIndex(item =>item.name===val.name)
+      if(index ===-1){
+        state.tabList.push(val)
+      }
+    }
+
+
   },
   //设置菜单导航
   setMenu(state,val){

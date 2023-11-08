@@ -15,12 +15,13 @@ http.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 http.interceptors.response.use(function (response) {
-switch (response.data.code){
-  case 7:
-    Vue.prototype.$message.error(response.data.msg)
+ if (response.data.code===7){
+  Vue.prototype.$message.error(response.data.msg)
+}else{
+  return response
 }
     // 对响应数据做点什么
-    return response;
+    
   }, function (error) {
     // 对响应错误做点什么
     if (err.response.data.message) {

@@ -48,21 +48,7 @@ import Menu from './Menu.vue'
           this.menuData =data.menuList
         })
       },
-      //点击菜单
-      clickMenu(item){
-          if(this.$route.path !==('/'+item.path)){
-            console.log(this.$route.path,item.path,"11111111111")
-            
-              this.$router.push(item.path)
-              console.log('22222',this.$route.path)
-          }
-         
-      },
-      //带二级菜单的跳转
-      clickChildMenu(subItem,item){
-         this.$router.push(item.path +'/'+subItem.path)
-          console.log('33333',this.$route)
-      }
+    
 
    },
    mounted() {

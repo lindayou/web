@@ -8,6 +8,7 @@
         :rules="rules"
         ref="loginForm"
         label-width="0px"
+        @keyup.native.enter="submitForm"
       >
         <el-form-item label="" prop="username" style="margin-top: 10px">
           <el-row>
@@ -35,6 +36,7 @@
                 type="password"
                 placeholder="密码"
                 v-model="form.password"
+                
               ></el-input>
             </el-col>
           </el-row>
@@ -94,7 +96,7 @@ import { mapMutations } from 'vuex'
        submitForm(){
            userLogin(this.form).then(res=>{
                console.log('登录接口返回结果',res)
-               //设置stroe信息
+                 //设置stroe信息
                this.setUser({
                 username:this.form.username,
                 token:res.data.data.token,
@@ -102,6 +104,9 @@ import { mapMutations } from 'vuex'
                 })
                 
                this.$router.push('/dashboard')
+
+               
+              
            })
          
        }

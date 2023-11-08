@@ -19,7 +19,7 @@
   </el-submenu>
 
 
-      <el-menu-item @click="toPage(item.name)" :index="item.name" :key="item.name" v-else >
+      <el-menu-item @click="toPage(item)" :index="item.name" :key="item.name" v-else >
     <i :class="`el-icon-${item.icon}`"></i>
     <span slot="title">{{item.title}}</span>
   </el-menu-item>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapMutations } from 'vuex';
  export default {
    name: 'Menu',
    props:['MenuList'],
@@ -58,10 +58,20 @@ import { mapState } from 'vuex';
      }
    },
    methods: {
-       toPage(name){
+    ...mapMutations('tab',["selectMenu"]),
+       toPage(item){
+        if(this.$route.name !==item.name ){
+          console.log('this.$route',this.$route)
+
+        console.log('this.$item',item)
+        this.selectMenu(item)
+
            this.$router.push(
-               {name}
+               {name:item.name}
            )
+
+        }
+        
 
        }
 
