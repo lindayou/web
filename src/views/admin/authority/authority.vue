@@ -31,19 +31,25 @@
      <el-button type="primary" @click="submit">确 定</el-button>
    </span>
  </el-dialog>
+
+ <!-- 抽屉弹窗 -->
+ <el-drawer
+  title="设置菜单权限"
+  :visible.sync="drawer"
+  :direction="direction"
+  destroy-on-close
+  >
+          <Menus ref="menus" :row="activeRow"  @changeRow="changeRow" />
+      
+</el-drawer>
  
-     <el-drawer v-if="drawer" v-model="drawer" custom-class="auth-drawer" :with-header="false" size="40%" title="角色配置">
-       <el-tabs :before-leave="autoEnter" type="border-card">
-         <el-tab-pane label="角色菜单">
-           <menus ref="menus" :row="activeRow" @changeRow="changeRow" />
-         </el-tab-pane>
-       </el-tabs>
-     </el-drawer>
- 
+   
+
+ <!-- 新增弹窗 -->
  
      <div class="gva-btn-list">
          <el-button type="primary" icon="plus" @click="addAuthority(0)">新增角色</el-button>
-         <!-- <el-icon  class="cursor-pointer" @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT?p=8&vd_source=f2640257c21e3b547a790461ed94875e')"><VideoCameraFilled /></el-icon> -->
+    
        </div>
        <el-table
        :data="tableData"
@@ -106,11 +112,13 @@
 
 <script>
 import { getAuthorityList,addAuthority,deleteAuthority,editAuthority} from '../../../api/authority.js'
+import  Menus from './components/authMenu.vue'
  export default {
    name: 'authority',
    props: {
    },
    components: {
+     Menus
 
    },
    data () {
@@ -120,6 +128,9 @@ import { getAuthorityList,addAuthority,deleteAuthority,editAuthority} from '../.
     dialogTitle:'',
     dialogType:'',
     AuthorityOption:[],
+    drawer: false,
+    direction: 'rtl',
+    
     form:{
       parentId:0,
       authorityId:0,
@@ -184,6 +195,13 @@ import { getAuthorityList,addAuthority,deleteAuthority,editAuthority} from '../.
         });
       
   },
+   closeDrawer(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      },
 
   submit() {
     if (this.dialogType ==='add'){
@@ -267,7 +285,11 @@ import { getAuthorityList,addAuthority,deleteAuthority,editAuthority} from '../.
   },
   opdendrawer(row){
     this.drawer = true,
-  this.activeRow = row
+    this.activeRow = row
+  },
+  changeRow(key, value){
+    this.activeRow[key] = value
+
   },
    },
    mounted() {

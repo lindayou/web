@@ -107,7 +107,7 @@ import { mapMutations } from 'vuex'
 
                
               
-           })
+           }).catch(err => {});
          
        }
 

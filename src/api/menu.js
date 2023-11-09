@@ -1,5 +1,5 @@
 import http from '../utils/request'
-//获取用户列表
+//获取菜单列表
 export const getMenuList = () =>{
     return http.get('/api/menu/getMenuList')
 }
@@ -24,5 +24,5 @@ export const getMenuAuthority = (param) =>{
 
 //增加菜单和角色关联
 export const addMenuAuthority = (param) =>{
-    return http.post('/api/menu/addMenuAuthority',)
+    return http.post('/api/menu/addMenuAuthority',param)
 }

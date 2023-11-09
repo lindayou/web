@@ -15,8 +15,11 @@ http.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 http.interceptors.response.use(function (response) {
+  // debugger
  if (response.data.code===7){
+   
   Vue.prototype.$message.error(response.data.msg)
+  return Promise.reject(response?.data || {})
 }else{
   return response
 }
