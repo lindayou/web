@@ -7,7 +7,7 @@
        <h3>{{isCollapse ? '后台':'后台管理系统'}}</h3>
    <!-- 动态菜单 -->
    <el-menu-item @click="toPage('dashboard')"   >
-    <!-- <i :class="`el-icon-${item.icon}`"></i> -->
+    <i class="el-icon-location"></i>
     <span slot="title">首页</span>
   </el-menu-item>
  
@@ -99,4 +99,8 @@ import Menu from './Menu.vue'
    }
    border-right: none;
 }
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+  }
 </style>
