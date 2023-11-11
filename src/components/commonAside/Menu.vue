@@ -3,7 +3,7 @@
 
      <template v-for ="item in MenuList">
 
-          <el-submenu :key="item.name"  v-if="item.children && item.children.length>0" >
+          <el-submenu :key="item.name" :index="item.name" v-if="item.children && item.children.length>0" >
     <template slot="title">
       <i :class="`el-icon-${item.icon}`"></i>
       <span slot="title">{{item.title}}</span>

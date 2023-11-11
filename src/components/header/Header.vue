@@ -52,6 +52,7 @@ import { mapState } from "vuex";
         
       this.removeUser()
       this.removeMenu()
+      this.removeBreadMenu()
       this.$router.push('/login')
 
       }
@@ -59,6 +60,8 @@ import { mapState } from "vuex";
     },
     ...mapMutations('login',['removeUser']),
       ...mapMutations('tab',['removeMenu']),
+      ...mapMutations('tab',['removeBreadMenu']),
+
     
    },
    mounted() {

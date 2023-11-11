@@ -34,6 +34,18 @@ const mutations = {
 
 
   },
+  //清空面包屑
+  removeBreadMenu(state){
+    state.tabList =[
+      {
+        path:'/',
+        name:'dashboard',
+        title:"首页",
+      }
+  
+    ]
+
+  },
   //设置菜单导航
   setMenu(state,val){
     state.menu =val
