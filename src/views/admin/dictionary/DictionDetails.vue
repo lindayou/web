@@ -37,7 +37,7 @@
 
     <template #default="scope">
         <el-button type="text" link icon="edit" @click="updateSysDictionaryDetailFunc(scope.row)">变更</el-button>
-         <el-popover v-model="scope.row.visible" placement="top" width="160">
+         <el-popover v-model="scope.row.visible" placement="top" width="160" trigger="hover">
               <p>确定要删除吗？</p>
               <div style="text-align: right; margin-top: 8px;">
                 <el-button type="text" link @click="scope.row.visible = false">取消</el-button>
@@ -147,7 +147,8 @@ import {  formatDate } from '../../../utils/formdate.js'
 
 
        getDetails(){
-          const  id =Number(this.$route.params.id)
+          const  id =Number(this.$route.query.id)
+          console.log('this.$route.params.id',this.$route)
          getDicDetails(id).then(res=>{
              console.log('res',res.data.data)
              this.tableData =res.data.data.detailsList
@@ -185,7 +186,7 @@ import {  formatDate } from '../../../utils/formdate.js'
 
        },
        submitDialog(){
-           this.dictionForm.sysDictionatyId =this.$route.params.id
+           this.dictionForm.sysDictionatyId =Number(this.$route.query.id)
            this.dictionForm.value =Number(this.dictionForm.value)
            this.dictionForm.sort =Number(this.dictionForm.sort)
            if(!this.isEdit){
@@ -200,9 +201,19 @@ import {  formatDate } from '../../../utils/formdate.js'
                    console.log('editDicDetails',res)
                })
            }
+           this.getDetails()
            this.dialogVisible =false
-        this.getDetails()
+        
        },
+      
+
+
+       async deleteSysDictionaryDetailFunc(row){
+         let res =await deleteDicDetails({id:row.id})
+         console.log('deleteDicDetails',res)
+         this.getDetails()
+        },
+
        initForm(){
            if(this.$refs.dictionForm){
                 this.$refs.dictionForm.resetFields()

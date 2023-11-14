@@ -1,7 +1,8 @@
 import http from '../utils/request'
 //获取字典列表
-export const getDicList = () =>{
-    return http.get('/api/dic/getDicList')
+export const getDicList = (params) =>{
+    console.log('getDicList',params)
+    return http.get('/api/dic/getDicList',{params})
 }
 //获取字典详情
 export const getDicDetails = (id) =>{

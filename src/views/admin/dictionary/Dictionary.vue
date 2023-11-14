@@ -269,10 +269,22 @@ import {getDicList,addDic,editDic,deleteDic } from '../../../api/dictionary'
       )
 
     },
-    onSubmit(){
+    async onSubmit(){
+      const req ={
+        ...this.form
+      }
+      console.log('req',req)
+      let res = await getDicList(req)
+      console.log('onSubmit',res)
+      this.tableData =res.data.data.dicList
+      
 
     },
+    
+
     onReset(){
+     this.form ={},
+     this.getDictionList()
 
     },
     handleClose(){
