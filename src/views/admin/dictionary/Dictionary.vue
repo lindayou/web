@@ -15,7 +15,7 @@
   </el-form-item>
 
   <el-form-item label="描述">
-    <el-input v-model="form.description" placeholder="字典的描述"></el-input>
+    <el-input v-model="form.desc" placeholder="字典的描述"></el-input>
   </el-form-item>
    <el-form-item>
           <el-button
@@ -61,7 +61,7 @@
         width="250">
       </el-table-column>
       <el-table-column
-        prop="discription"
+        prop="desc"
         label="描述"
         width="360">
       </el-table-column>
@@ -72,7 +72,7 @@
               icon="document"
               type="text"
               link
-              @click="toDetail(scope)"
+              @click="toDetail(scope.row)"
             >详情</el-button>
             <el-button
 
@@ -84,6 +84,7 @@
             <el-popover
               v-model="scope.row.visible"
               placement="top"
+              trigger="hover"
               width="160"
             >
               <p>确定要删除吗？</p>
@@ -95,7 +96,7 @@
                   @click="scope.row.visible = false"
                 >取消</el-button>
                 <el-button
-                  type="primary"
+                  type="text"
 
                   @click="deleteSysDictionaryFunc(scope.row)"
                 >确定</el-button>
@@ -120,10 +121,10 @@
   </div>
     <!-- 新增字典弹窗 -->
     <el-dialog
-  :title=dialogTitle
+  :title="dialogTitle"
   :visible.sync="dialogVisible"
   width="30%"
-  :before-close="handleClose">
+  >
 
 
   <el-form  ref="dictionForm" :model="dictionForm" class="dic-form" :rules="rules" >
@@ -142,7 +143,7 @@
      ></el-switch>
   </el-form-item>
   <el-form-item label="描述信息" prop="description">
-    <el-input v-model="dictionForm.description" placeholder="描述信息"></el-input>
+    <el-input v-model="dictionForm.desc" placeholder="描述信息"></el-input>
   </el-form-item>
  
 </el-form>
@@ -158,7 +159,7 @@
 </template>
 
 <script>
-import {getDicList } from '../../../api/dictionary'
+import {getDicList,addDic,editDic,deleteDic } from '../../../api/dictionary'
  export default {
    name: 'Dictionary',
    props: {
@@ -181,19 +182,16 @@ import {getDicList } from '../../../api/dictionary'
           {
             required:true,
           trigger: 'blur' ,
-          min:3,
           }
         ],
         type:[{
           required:true,
           trigger: 'blur' ,
-          min:3,
         }],
         status:[
           {
             required:true,
-          trigger: 'blur' ,
-          min:3,
+            trigger: 'blur' ,
             
           }
         ]
@@ -204,6 +202,7 @@ import {getDicList } from '../../../api/dictionary'
    },
    methods: {
     addDiction(){
+      console.log('resField',this.$refs)
       this.initForm()
       this.isEdit =false
       this.dialogTitle ='新增字典'
@@ -226,27 +225,57 @@ import {getDicList } from '../../../api/dictionary'
       if(!this.isEdit){
         this.$refs.dictionForm.validate(valid=>{
           if(valid){
-            增加
+            addDic(this.dictionForm).then(res=>{
+              console.log('addDicRes',res)
+            })
+            this.getDictionList()
           }
         })
       }else{
         this.$refs.dictionForm.validate(valid=>{
           if(valid){
-            编辑提交
+            editDic(this.dictionForm).then(res=>{
+              console.log('editDicRes',res)
+
+            })
+            this.getDictionList()
           }
         })
 
       }
-
-
+    
       this.dialogVisible =false
       this.initForm()
       this.getDictionList()
 
     },
-    toDetail(scope){
-      console.log('1111111111111',scope)
-      console.log('222222222',scope.row)
+     deleteSysDictionaryFunc(row){
+        deleteDic({id:row.id}).then(res=>{
+          console.log('deleteDicRes',res)
+        })
+        this.getDictionList()
+
+      },
+    toDetail(row){
+      console.log("rowrow",row)
+   
+      this.$router.push(
+        {
+          name:'dictionaryDetail',
+          query:{
+            id:row.id,
+          }
+        }
+      )
+
+    },
+    onSubmit(){
+
+    },
+    onReset(){
+
+    },
+    handleClose(){
 
     },
 

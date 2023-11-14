@@ -3,7 +3,7 @@ import User from '@/views/admin/user/User.vue'
 import Menu from '@/views/admin/menu/Menu.vue'
 import Admin from '@/views/admin/index.vue'
 import Dictionary from '@/views/admin/dictionary/Dictionary.vue'
-
+import DictionDetails from '@/views/admin/dictionary/DictionDetails.vue'
 
 
 
@@ -36,6 +36,12 @@ import Dictionary from '@/views/admin/dictionary/Dictionary.vue'
                 name:"dictionary",
                 component:Dictionary,
             },
+            {
+                path:"dictionaryDetail",
+                name:"dictionaryDetail",
+                component:DictionDetails,
+            },
+
 
         ]
             
