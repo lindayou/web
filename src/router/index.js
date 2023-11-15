@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import DashBoard from '@/views/Home.vue'
 import Main from '@/views/Main.vue'
 import Login from '@/views/login/Login.vue'
+import Css from '@/components/TestCss/TestCss.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -34,6 +35,11 @@ export const baseRoute= [
           title:'首页',
         },
         // component:DashBoard,
+      },
+      {
+        path:'css',
+        name:'css',
+        component:Css
       }
 
     ]

@@ -1,8 +1,7 @@
 <template>
- <div>
+ <div class="main" >
    <!-- 搜索框 -->
    <div class="search-box">
-
      <el-form ref="form" :model="form" :inline="true" label-width="80px">
   <el-form-item label="字典名(中)">
     <el-input v-model="form.name" placeholder="字典名称"></el-input>
@@ -30,8 +29,8 @@
             @click="onReset"
           >重置</el-button>
         </el-form-item>
-</el-form>
-   </div>
+    </el-form>
+ </div>
 
    <!-- 新增按钮 -->
   <div class="button" >
@@ -41,8 +40,9 @@
 
 
    <!-- 主体表格 -->
-   <div class="table-box">
+  <div class="table-box">
    <el-table
+      :max-height="600"
       :data="tableData"
       style="width: 100%">
       <el-table-column
@@ -118,9 +118,25 @@
       </el-table-column>
 
     </el-table>
+ 
+    
   </div>
+       <div class="block">
+   
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="page"
+      :page-size="[10, 30, 50, 100]"
+      layout="total, prev, pager, next"
+      :total="total">
+    </el-pagination>
+   </div>
+ 
+
+
     <!-- 新增字典弹窗 -->
-    <el-dialog
+<el-dialog
   :title="dialogTitle"
   :visible.sync="dialogVisible"
   width="30%"
@@ -146,7 +162,7 @@
     <el-input v-model="dictionForm.desc" placeholder="描述信息"></el-input>
   </el-form-item>
  
-</el-form>
+ </el-form>
 
   <span slot="footer" class="dialog-footer">
     <el-button @click="cancelDialog">取 消</el-button>
@@ -173,10 +189,13 @@ import {getDicList,addDic,editDic,deleteDic } from '../../../api/dictionary'
          name:'',
        },
        tableData:[],
+       total:0,
        dialogVisible:false,
        dictionForm:{},
        dialogTitle:'',
        isEdit:false,
+       page:1,
+       pageSize:10,
        rules:{
         name:[
           {
@@ -271,7 +290,9 @@ import {getDicList,addDic,editDic,deleteDic } from '../../../api/dictionary'
     },
     async onSubmit(){
       const req ={
-        ...this.form
+        ...this.form,
+        page:1,
+        pageSize:10,
       }
       console.log('req',req)
       let res = await getDicList(req)
@@ -301,19 +322,31 @@ import {getDicList,addDic,editDic,deleteDic } from '../../../api/dictionary'
       this.dictionForm ={}
     },
     getDictionList(){
-      getDicList().then(res =>{
+    const req ={
+        ...this.form,
+        page:this.page,
+        pageSize:this.pageSize,
+      }
+      
+      
+      getDicList(req).then(res =>{
       console.log('dicres',res)
       this.tableData =res.data.data.dicList
+      this.total =res.data.data.total
     })
 
-    }
+    },
+      handleSizeChange(val) {
+        this.pageSize =val
+      },
+      handleCurrentChange(val) {
+        this.page =val
+        this.getDictionList()
+      },
 
    },
    mounted() {
-    getDicList().then(res =>{
-      console.log('dicres',res)
-      this.tableData =res.data.data.dicList
-    })
+     this.getDictionList()
 
    },
    watch: {
@@ -329,5 +362,27 @@ import {getDicList,addDic,editDic,deleteDic } from '../../../api/dictionary'
 </script>
 
 <style lang='less' scoped>
+.main{
+  // height: 80vh;
+  .table-box{
+  // height: 70vh;
+  // position: relative;
+ 
+}
+   .block{
+
+  ::v-deep .el-pagination{
+    text-align: right;
+  //  position: absolute;
+    // bottom: 0;
+    // right: 20px;
+  }
+}
+}
+
+
+
+
+
 
 </style>

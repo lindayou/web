@@ -10,6 +10,12 @@
     <i class="el-icon-location"></i>
     <span slot="title">首页</span>
   </el-menu-item>
+
+   <el-menu-item @click="toPage('css')"   >
+    <i class="el-icon-location"></i>
+    <span slot="title">测试Css</span>
+  </el-menu-item>
+ 
  
      <Menu :MenuList="menu" ></Menu>
  

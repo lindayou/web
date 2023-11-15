@@ -19,7 +19,7 @@
   </el-submenu>
 
 
-      <el-menu-item @click="toPage(item)" :index="item.name" :key="item.name" v-else >
+      <el-menu-item @click="toPage(item)" :index="item.name" :key="item.name" v-if="!item.children  && !item.hidden" >
     <i :class="`el-icon-${item.icon}`"></i>
     <span slot="title">{{item.title}}</span>
   </el-menu-item>
