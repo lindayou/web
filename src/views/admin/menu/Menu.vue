@@ -210,7 +210,7 @@
       </div>
 
     <div class="table">
-       <el-table :data="tableData" row-key="id" >
+       <el-table :data="tableData" row-key="id" :max-height="580" >
         <el-table-column align="left" label="ID" min-width="100" prop="id" />
         <el-table-column align="left" label="展示名称" min-width="120" prop="title">
           <!-- <template #default="scope">
@@ -453,9 +453,8 @@ export default {
 <style lang='less' scoped>
 .manage{
  
-height: 90%;
  .table {
-   height: 80vh;
+   
   }
 
 

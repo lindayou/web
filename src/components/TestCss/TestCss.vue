@@ -41,7 +41,9 @@
 
 <style lang='less' scoped>
 .div0{
-    height: calc(100vh - 150px);
+    height: calc(100vh - 120px);
+    // height: 90%;
+   
     
     
 .div1{

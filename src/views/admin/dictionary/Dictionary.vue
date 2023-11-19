@@ -42,7 +42,7 @@
    <!-- 主体表格 -->
   <div class="table-box">
    <el-table
-      :max-height="600"
+      :max-height="580"
       :data="tableData"
       style="width: 100%">
       <el-table-column
@@ -365,6 +365,7 @@ import {getDicList,addDic,editDic,deleteDic } from '../../../api/dictionary'
 .main{
   // height: 80vh;
   .table-box{
+    margin-top:10px ;
   // height: 70vh;
   // position: relative;
  
