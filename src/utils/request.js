@@ -1,5 +1,7 @@
 import axios from "axios";
 import Vue from 'vue'
+import store from "@/store/index"
+import router from '@/router/index'
 const http = axios.create({
     timeout: 5000,
 })
@@ -7,6 +9,13 @@ const http = axios.create({
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
+    config.headers = {
+      'Content-Type': 'application/json',
+      // 'x-token': store.state.login.userInfo.token,
+      'Authorization': 'Bearer'+ ' '+store.state.login.userInfo.token,
+      // 'x-user-id': userStore.state.userInfo.ID,
+      ...config.headers
+    }
     return config;
   }, function (error) {
     // 对请求错误做些什么
@@ -15,6 +24,7 @@ http.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 http.interceptors.response.use(response =>{
+  console.log('this is response',response)
   // debugger
  if (response.data.code===7){
    
@@ -24,6 +34,7 @@ http.interceptors.response.use(response =>{
   return response
 }
   }, error=> {
+    console.log('this is error ',error)
     // 对响应错误做点什么
     if(!error.response){
       Vue.prototype.$confirm(`
@@ -66,6 +77,23 @@ http.interceptors.response.use(response =>{
           cancelButtonText: '取消'
         })
         break
+      case 401:
+        Vue.prototype.$confirm(`
+          <p>检测到接口错误${error}</p>
+          <p>错误码<span style="color:red"> 401 </span>：此类错误多为token过期，点击确定重新登录</p>
+          `, '接口报错', {
+          dangerouslyUseHTMLString: true,
+          distinguishCancelAndClose: true,
+          confirmButtonText: '我知道了',
+          cancelButtonText: '取消'
+        }).then(()=>{
+          
+          router.push('/login')
+
+        }).catch(()=>{
+          router.push('/login')
+
+        })
     }
     return Promise.reject(error);
   });

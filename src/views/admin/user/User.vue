@@ -475,6 +475,8 @@ initForm(){
     getUserList({page:1,pageSize:10}).then(({data})=>{
       console.log('11111',data)
       this.tableData =data.userList
+    }).catch(error=>{
+      console.log(error)
     })
    },
    },
@@ -483,6 +485,8 @@ initForm(){
       console.log('11111',data)
       this.tableData =data.userList
       this.total =data.total
+    }).catch(error=>{
+       console.log(error)
     }),
     getAuthorityList().then(({data})=>{
      this.setOptions(data.authorityList)
