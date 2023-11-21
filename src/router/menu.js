@@ -4,6 +4,7 @@ import Menu from '@/views/admin/menu/Menu.vue'
 import Admin from '@/views/admin/index.vue'
 import Dictionary from '@/views/admin/dictionary/Dictionary.vue'
 import DictionDetails from '@/views/admin/dictionary/DictionDetails.vue'
+import Operation from "@/views/admin/operation/Operation.vue"
 
 
 
@@ -41,6 +42,11 @@ import DictionDetails from '@/views/admin/dictionary/DictionDetails.vue'
                 name:"dictionaryDetail",
                 component:DictionDetails,
             },
+            {
+                path:"operation",
+                name:"operation",
+                component:Operation,
+            }
 
 
         ]
