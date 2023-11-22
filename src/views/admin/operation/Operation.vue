@@ -3,9 +3,22 @@
 <div class="table-box">
   <el-table
     :data="tableData"
-    :max-height="800"
+    :max-height="750"
     stripe
     style="width: 100%">
+
+      <el-table-column
+      prop="createdAt"
+      label="操作时间"
+      width="180">
+      <template #default="scope">
+            <div>
+              <el-tag >{{ fmtDate(scope.row.createdAt*1000) }}</el-tag>
+            </div>
+          </template>
+
+
+    </el-table-column>
     <el-table-column
       prop="ip"
       label="请求IP"
@@ -68,11 +81,24 @@
   
   </el-table>
 </div>
+<div class="page">
+        <el-pagination
+        background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="page"
+      :page-size="pageSize"
+      layout="total, prev, pager, next"
+      :total="total">
+    </el-pagination>
+
+</div>
  </div>
 </template>
 
 <script>
 import { getOperationlist} from '../../../api/operation.js'
+import {parseDate } from  '../../../utils/day.js' 
  export default {
    name: 'Operation',
    props: {
@@ -83,25 +109,59 @@ import { getOperationlist} from '../../../api/operation.js'
    data () {
      return {
       tableData:[],
+      pageSize:20,
+      page:0,
+      total:0,
 
      }
    },
    methods: {
     async getOperationlist(){
+        const req ={
+            page:this.page,
+            pageSize:this.pageSize,
+        }
 
-      let res = await getOperationlist()
+      let res = await getOperationlist(req)
       console.log("this is res ",res)
       this.tableData =res.data.data.operationList
+      this.total =res.data.data.total
 
 
     },
+    handleSizeChange(val) {
+
+        this.pageSize =Number(val)
+      },
+        handleCurrentChange(val) {
+        this.page =Number(val)
+        this.getOperationlist()
+      },
     fmtBody(value){
       try {
     return JSON.parse(value)
   } catch (err) {
     return value
   }
-    }
+    },
+    fmtDate(value){
+       console.log('this is value', value);  
+    let date = new Date(value);  
+    console.log('this is date', date.toLocaleString());  
+    return  date.toLocaleString()
+
+    },
+    parseDate(value){
+        return parseDate(value)
+    },
+    timestampToDate(timestamp) {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 
    },
    mounted() {
@@ -127,6 +187,9 @@ import { getOperationlist} from '../../../api/operation.js'
 
 .table-box{
 
+}
+.page{
+    text-align: right;
 }
 
 </style>    
