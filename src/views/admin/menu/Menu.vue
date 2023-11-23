@@ -2,7 +2,7 @@
     <div class="manage">
         <!-- 弹窗 -->
 
-      <el-dialog :visible.sync="DialogVisible" :before-close="handleClose" :title="dialogTitle">
+      <el-dialog :visible.sync="DialogVisible"  :title="dialogTitle">
       <!-- <warning-bar title="新增菜单，需要在角色管理内配置权限才可使用" /> -->
       <el-form
         v-if="dialogFormVisible"
@@ -83,115 +83,9 @@
             <el-option :value="true" label="是" />
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="CloseTab" prop="meta.closeTab" style="width:30%">
-          <el-select v-model="form.meta.closeTab" style="width:100%" placeholder="是否自动关闭tab">
-            <el-option :value="false" label="否" />
-            <el-option :value="true" label="是" />
-          </el-select>
-        </el-form-item> -->
-        <!-- <el-form-item style="width:30%">
-          <template #label>
-            <div>
-              <span> 是否为基础页面 </span>
-              <el-tooltip content="此项选择为是，则不会展示左侧菜单以及顶部信息。" placement="top" effect="light">
-                <el-icon><QuestionFilled /></el-icon>
-              </el-tooltip>
-            </div>
-          </template>
-
-          <el-select v-model="form.meta.defaultMenu" style="width:100%" placeholder="是否为基础页面">
-            <el-option :value="false" label="否" />
-            <el-option :value="true" label="是" />
-          </el-select>
-        </el-form-item> -->
+       
       </el-form>
-      <!-- <div>
-        <div class="flex items-center gap-2">
-          <el-button
-            type="primary"
-            icon="edit"
-            @click="addParameter(form)"
-          >新增菜单参数</el-button>
-          <el-icon  class="cursor-pointer" @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT?p=9&vd_source=f2640257c21e3b547a790461ed94875e')"><VideoCameraFilled /></el-icon>
-        </div>
-        <el-table :data="form.parameters" style="width: 100%;margin-top: 12px;">
-          <el-table-column align="left" prop="type" label="参数类型" width="180">
-            <template #default="scope">
-              <el-select v-model="scope.row.type" placeholder="请选择">
-                <el-option key="query" value="query" label="query" />
-                <el-option key="params" value="params" label="params" />
-              </el-select>
-            </template>
-          </el-table-column>
-          <el-table-column align="left" prop="key" label="参数key" width="180">
-            <template #default="scope">
-              <div>
-                <el-input v-model="scope.row.key" />
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column align="left" prop="value" label="参数值">
-            <template #default="scope">
-              <div>
-                <el-input v-model="scope.row.value" />
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column align="left">
-            <template #default="scope">
-              <div>
-                <el-button
-                  type="danger"
-
-                  icon="delete"
-                  @click="deleteParameter(form.parameters,scope.$index)"
-                >删除</el-button>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-
-        <div class="flex items-center gap-2 mt-3">
-          <el-button
-              type="primary"
-              icon="edit"
-              @click="addBtn(form)"
-          >新增可控按钮
-          </el-button>
-          <el-icon class="cursor-pointer" @click="toDoc('https://www.gin-vue-admin.com/guide/web/button-auth.html')"><QuestionFilled /></el-icon>
-          <el-icon  class="cursor-pointer" @click="toDoc('https://www.bilibili.com/video/BV1kv4y1g7nT?p=11&vd_source=f2640257c21e3b547a790461ed94875e')"><VideoCameraFilled /></el-icon>
-        </div>
-
-
-        <el-table :data="form.menuBtn" style="width: 100%;margin-top: 12px;">
-          <el-table-column align="left" prop="name" label="按钮名称" width="180">
-            <template #default="scope">
-              <div>
-                <el-input v-model="scope.row.name" />
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column align="left" prop="name" label="备注" width="180">
-            <template #default="scope">
-              <div>
-                <el-input v-model="scope.row.desc" />
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column align="left">
-            <template #default="scope">
-              <div>
-                <el-button
-                  type="danger"
-
-                  icon="delete"
-                  @click="deleteBtn(form.menuBtn,scope.$index)"
-                >删除</el-button>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div> -->
+      
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="closeDialog">取 消</el-button>

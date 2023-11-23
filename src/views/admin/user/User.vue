@@ -196,7 +196,7 @@ import { getAuthorityList} from '../../../api/authority.js'
      return {
       tableData: [],
       total:0,
-      authorityIds:888,
+      authorityIds:0,
     addUserDialog: false,
     dialogTitle:'',
     dialogType:'',
@@ -310,7 +310,7 @@ import { getAuthorityList} from '../../../api/authority.js'
   },
 //弹窗确定
 enterAddUserDialog(){
-  console.log('this.userInfo.authorityIds',this.userInfo.authorityIds)
+  
  this.userInfo.authorityId = this.userInfo.authorityIds[0]
  
   this.$refs.userForm.validate(async valid => {
@@ -343,6 +343,7 @@ enterAddUserDialog(){
 } ,
 //鼠标修改用户角色触发方法
 changeAuthority(row, flag, removeAuth){
+  console.log('changeAuthority',row, flag, removeAuth)
   const tempAuth = {}
   if (flag) {
     if (!removeAuth) {
@@ -350,17 +351,27 @@ changeAuthority(row, flag, removeAuth){
     }
     return
   }
-  const res =  setUserAuthority({
+  console.log('设置角色传值1',row.id)
+  console.log('设置角色传值2',row.authorityIds)
+  console.log('开始发送修改角色权限接口')
+
+  setUserAuthority({
     userId: row.id,
     authorityId: row.authorityIds
-  })
-  this.$message(
+  }).then(res=>{
+    this.$message(
     {
       type:'success',
       message:'设置成功'
     }
   )
-  this.getTableData()
+  console.log('发送成功')
+   this.getTableData()
+  })
+  
+ 
+  
+  
 },
 
 initForm(){
@@ -442,11 +453,17 @@ initForm(){
     this.dialogVisible =false
   },
    setAuthorityIds(){
+     console.log("tableData变了",this.tableData)
+     console.log('tableData changed ')
         this.tableData && this.tableData.forEach((user) => {
+          
     user.authorityIds = user.authorities && user.authorities.map(i => {
       return i.authorityId
     })
+    console.log("user.authorityIds",user.authorityIds)
+
   })
+
    },
    //启用按钮
    switchEnable(row){
@@ -472,12 +489,16 @@ initForm(){
    },
    //刷新
    getTableData(){
+     console.log('开始刷新table')
+   
     getUserList({page:1,pageSize:10}).then(({data})=>{
       console.log('11111',data)
       this.tableData =data.userList
     }).catch(error=>{
       console.log(error)
     })
+    
+     console.log('刷新结束')
    },
    },
    mounted() {
