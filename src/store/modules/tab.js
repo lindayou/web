@@ -3,7 +3,7 @@ import  {routerMap}  from '@/router/menu'
 import  router,{baseRoute}  from '@/router/index'
 import {rulesMenu,} from '@/utils/common'
 import  {cloneDeep} from 'loadsh'
-import {getMenuAuthority} from '@/api/menu'
+import {getMenuAuthority,getUserMenus} from '@/api/menu'
 const state = {
   isCollapse:false ,//控制菜单
   menu:[],
@@ -65,29 +65,13 @@ const actions = {
   async getMenuList({commit,rootState}){
     // authorityId:rootState.login.userinfo.authorityId
     console.log('rootState.login.userinfo',rootState)
-    let res = await getMenuAuthority({authorityId:rootState.login.userInfo.authorityId})
+    let res = await getUserMenus({userId:rootState.login.userInfo.userId})
 
   console.log('后端返回的菜单信息',res.data)
-  const testMenu =[{
-    path:'admin', 
-    name:'admin',
-    meta:{
-      title:'超级管理员'
-    },
-    children:[
-      {
-        path:'user',
-        name:'user',
-        meta:{
-          title:'用户'
-        }
-
-      }
-    ]
-  }]
-  let myMenu = rulesMenu(routerMap,res.data.menuList)
+ 
+  let myMenu = rulesMenu(routerMap,res.data.data.menuList)
   console.log('myMenu ',myMenu)
-  commit('setMenu',res.data.menuList)
+  commit('setMenu',res.data.data.menuList)
   //添加
   let mybaseRoutes =cloneDeep(baseRoute)
  

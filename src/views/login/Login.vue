@@ -101,6 +101,7 @@ import { mapMutations } from 'vuex'
                 username:this.form.username,
                 token:res.data.data.token,
                 authorityId :res.data.data.authorityId,
+                userId :res.data.data.id,
                 })
                 
                this.$router.push('/dashboard')

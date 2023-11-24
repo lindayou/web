@@ -22,6 +22,12 @@ export const getMenuAuthority = (param) =>{
     return http.post('/api/menu/getMenuAuthority',param)
 }
 
+//获取指定用户菜单
+export const getUserMenus = (params) =>{
+    return http.get('/api/menu/getUserMenus',{params})
+}
+
+
 //增加菜单和角色关联
 export const addMenuAuthority = (param) =>{
     return http.post('/api/menu/addMenuAuthority',param)

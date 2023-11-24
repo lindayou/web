@@ -4,6 +4,7 @@ const state = {
     username:'',
     token:'',
     authorityId:0,
+    userId:0,
   }
    
   
@@ -21,6 +22,8 @@ const state = {
       state.userInfo ={
         username:'',
         token:'',
+        authorityId:0,
+        userId:0,
 
       }
     }

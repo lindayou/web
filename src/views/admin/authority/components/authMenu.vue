@@ -17,53 +17,10 @@
         :filter-node-method="filterNode"
         @check="nodeChange"
       >
-        <!-- <template #default="{ node , data }">
-          <span class="custom-tree-node">
-            <span>{{ node.label }}</span> -->
-            <!-- <span>
-              <el-button
-                type="primary"
-                link
-
-                :style="{color:row.defaultRouter === data.name?'#E6A23C':'#85ce61'}"
-                :disabled="!node.checked"
-                @click="() => setDefault(data)"
-              >
-                {{ row.defaultRouter === data.name?"首页":"设为首页" }}
-              </el-button>
-            </span> -->
-            <!-- <span v-if="data.menuBtn.length">
-              <el-button
-                type="primary"
-                link
-
-                @click="() => OpenBtn(data)"
-              >
-                分配按钮
-              </el-button>
-            </span> -->
-          <!-- </span>
-        </template> -->
+       
       </el-tree>
     </div>
-    <el-dialog v-model="btnVisible" title="分配按钮" destroy-on-close>
-      <el-table
-        ref="btnTableRef"
-        :data="btnData"
-        row-key="ID"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" width="55" />
-        <el-table-column label="按钮名称" prop="name" />
-        <el-table-column label="按钮备注" prop="desc" />
-      </el-table>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="closeDialog">取 消</el-button>
-          <el-button type="primary" @click="enterDialog">确 定</el-button>
-        </div>
-      </template>
-    </el-dialog>
+
   </div>
 </template>
 
