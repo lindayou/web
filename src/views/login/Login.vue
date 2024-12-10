@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <div class="mylogin" align="center">
-      <h1 class="title">管理平台</h1>
+      <h1 class="title">CMS管理系统</h1>
       <h4>登录</h4>
       <el-form
         :model="form"
@@ -53,6 +53,12 @@
             <a href="register.vue" target="_blank" align="right">注册新账号</a>
           </router-link>
         </div> -->
+        <el-form-item style="margin-top: 10px; text-align: center">
+  <div class="register-link">
+    <span>没有账号？</span>
+    <router-link :to="{ path: '/register' }">立即注册</router-link>
+  </div>
+</el-form-item>
       </el-form>
     </div>
   </div>
@@ -136,45 +142,83 @@ import { mapMutations } from 'vuex'
 
   .login {
     width: 100vw;
+    height: 100vh;
     padding: 0;
     margin: 0;
-    height: 90vh;
     font-size: 16px;
-    background-position: left top;
     background-color: #ffffff;
+    background-image: url('@/assets/img/login.jpg');
+    background-size: cover;
+    background-position: center;
     color: rgb(36, 35, 77);
     font-family: "Source Sans Pro";
     position: relative;
   }
  
   .mylogin {
-    width: 240px;
-    height: 280px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    padding: 40px 40px 40px 40px;
-    box-shadow: -15px 15px 15px rgba(5, 17, 83, 0.7);
+    width: 300px;
+  padding: 40px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.6); /* 半透明背景 */
+  border-radius: 10px; /* 圆角效果 */
+  color: #fff; /* 字体颜色调整为白色 */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
+  animation: fadeIn 1s ease; /* 添加动画 */
+  }
+  @keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
     opacity: 1;
-    background: rgb(205, 227, 248);
+    transform: translate(-50%, -50%);
   }
- 
-  .inps input {
-    border: none;
-    color: #fff;
-    background-color: transparent;
-    font-size: 12px;
-  }
- 
-  .submitBtn {
-    background-color: transparent;
-    color: #39f;
-    width: 200px;
-  }
+}
 
+ 
+.inps input {
+  border: 1px solid rgba(255, 255, 255, 0.3); /* 边框半透明 */
+  background-color: rgba(255, 255, 255, 0.2); /* 输入框背景透明 */
+  color: #fff; /* 字体颜色 */
+  border-radius: 5px; /* 圆角 */
+  padding: 10px;
+}
 
+.submitBtn {
+  width: 100%;
+  background: linear-gradient(45deg, #36d1dc, #5b86e5); /* 渐变按钮 */
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.submitBtn:hover {
+  background: linear-gradient(45deg, #5b86e5, #36d1dc); /* 悬停效果 */
+}
+.register-link {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8); /* 半透明白色 */
+}
+
+.register-link span {
+  margin-right: 5px;
+}
+
+.register-link a {
+  color: #36d1dc; /* 按钮渐变主色 */
+  text-decoration: none; /* 去掉下划线 */
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.register-link a:hover {
+  color: #5b86e5; /* 悬停颜色 */
+}
 
 </style>

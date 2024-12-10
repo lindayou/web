@@ -54,7 +54,7 @@ import {  } from 'vuex';
         this.selectMenu(item)
 
            this.$router.push(
-               {name:item.name}
+               {name:item.name},()=>{}, ()=>{}
            )
 
         }

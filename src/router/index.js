@@ -2,9 +2,18 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import DashBoard from '@/views/Home.vue'
 import Main from '@/views/Main.vue'
-import Login from '@/views/login/Login.vue'
 import Css from '@/components/TestCss/TestCss.vue'
+import Register from '@/views/register/Register.vue'
+import AboutUs from '@/views/admin/about-us/AboutUs.vue'
+import Login from '@/views/login/Login.vue'
+
+
 Vue.use(VueRouter)
+
+const originalPush =VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 const routes = [
   {
@@ -12,6 +21,16 @@ const routes = [
     name:'login',
     component:Login,
 
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: AboutUs,
   },
   
 

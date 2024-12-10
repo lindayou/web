@@ -97,6 +97,7 @@ import Menu from './Menu.vue'
 <style lang='less' scoped>
 .el-menu {
  height: 100vh;
+ 
  h3 {
    color: #fff;
    text-align: center;
@@ -109,4 +110,33 @@ import Menu from './Menu.vue'
     width: 200px;
     min-height: 400px;
   }
+  .el-menu-item {
+  transition: all 0.3s ease; /* 过渡效果 */
+  padding: 12px 24px;
+  border-radius: 6px; /* 增加圆角 */
+}
+.el-menu-item:hover {
+  background-color: #1a2328; /* 悬停时深色背景 */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* 悬停时添加右侧阴影 */
+}
+.el-menu-item.is-active {
+  background-color: #16a085; /* 选中项背景颜色 */
+  color: #fff; /* 选中项文字颜色 */
+}
+.el-menu-item i {
+  margin-right: 12px;
+  font-size: 18px; /* 图标稍微增大 */
+  transition: transform 0.2s ease-in-out; /* 图标过渡效果 */
+}
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 220px; /* 扩展宽度，让菜单更宽 */
+  min-height: 400px;
+  padding-top: 20px;
+}
+.el-menu-item span {
+  font-size: 16px; /* 增加文字的大小 */
+  font-weight: 500; /* 文字加粗 */
+  letter-spacing: 0.5px; /* 字母间距 */
+}
+
 </style>
